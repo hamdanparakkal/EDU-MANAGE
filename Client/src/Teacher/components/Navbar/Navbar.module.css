@@ -1,0 +1,292 @@
+/* ─────────────────────────────────────────────────
+   Teacher Navbar — Clean SaaS Light (White + Violet)
+───────────────────────────────────────────────── */
+
+.container {
+  width: 100%;
+  height: 64px;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border-bottom: 1px solid rgba(226, 232, 240, 0.8);
+  box-shadow: 0 1px 20px rgba(99, 102, 241, 0.06), 0 1px 3px rgba(0, 0, 0, 0.04);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 28px;
+  box-sizing: border-box;
+  z-index: 1001;
+  position: relative;
+  animation: navSlideDown 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes navSlideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-100%);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Subtle violet line at bottom */
+.container::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(99, 102, 241, 0.25), rgba(139, 92, 246, 0.25), transparent);
+}
+
+/* ── Left ── */
+.left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  animation: fadeSlideIn 0.5s 0.1s both;
+}
+
+.logo {
+  width: 36px;
+  height: 36px;
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 14px rgba(99, 102, 241, 0.35);
+  flex-shrink: 0;
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s;
+  animation: logoPop 0.7s cubic-bezier(0.68, -0.55, 0.265, 1.55) 0.15s both;
+}
+
+@keyframes logoPop {
+  0% {
+    transform: scale(0) rotate(-15deg);
+    opacity: 0;
+  }
+
+  60% {
+    transform: scale(1.12) rotate(4deg);
+    opacity: 1;
+  }
+
+  100% {
+    transform: scale(1) rotate(0);
+  }
+}
+
+.logo:hover {
+  transform: rotate(6deg) scale(1.05);
+  box-shadow: 0 8px 22px rgba(99, 102, 241, 0.4);
+}
+
+.logo svg {
+  width: 19px;
+  height: 19px;
+  fill: #fff;
+}
+
+.title {
+  font-size: 15px;
+  font-weight: 800;
+  color: #0f172a;
+  letter-spacing: -0.02em;
+}
+
+.badge {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #6366f1;
+  background: rgba(99, 102, 241, 0.08);
+  border: 1px solid rgba(99, 102, 241, 0.2);
+  padding: 3px 10px;
+  border-radius: 30px;
+}
+
+@keyframes fadeSlideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-12px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* ── Right ── */
+.right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  animation: fadeSlideInRight 0.5s 0.2s both;
+}
+
+@keyframes fadeSlideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(16px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.iconBtn {
+  width: 38px;
+  height: 38px;
+  border-radius: 11px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.iconBtn:hover {
+  background: #fff;
+  border-color: rgba(99, 102, 241, 0.3);
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.12);
+  transform: translateY(-2px);
+}
+
+.iconBtn svg {
+  width: 17px;
+  height: 17px;
+  color: #64748b;
+  transition: color 0.2s;
+}
+
+.iconBtn:hover svg {
+  color: #6366f1;
+}
+
+.dot {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #f43f5e;
+  border: 2px solid #f8fafc;
+  animation: pulseDot 2s infinite;
+}
+
+@keyframes pulseDot {
+
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(244, 63, 94, 0.5);
+  }
+
+  50% {
+    box-shadow: 0 0 0 4px rgba(244, 63, 94, 0);
+  }
+}
+
+.sep {
+  width: 1px;
+  height: 22px;
+  background: #e2e8f0;
+  margin: 0 2px;
+}
+
+.user {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 5px 12px 5px 5px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.user:hover {
+  background: #fff;
+  border-color: rgba(99, 102, 241, 0.25);
+  box-shadow: 0 4px 14px rgba(99, 102, 241, 0.1);
+  transform: translateY(-1px);
+}
+
+.avatarRing {
+  width: 32px;
+  height: 32px;
+  border-radius: 9px;
+  padding: 2px;
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  flex-shrink: 0;
+  transition: transform 0.3s ease;
+}
+
+.user:hover .avatarRing {
+  transform: scale(1.05);
+}
+
+.avatar {
+  width: 100%;
+  height: 100%;
+  border-radius: 7px;
+  object-fit: cover;
+  display: block;
+}
+
+.userInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.uname {
+  font-size: 13px;
+  font-weight: 700;
+  color: #0f172a;
+  line-height: 1.2;
+}
+
+.urole {
+  font-size: 10px;
+  font-weight: 600;
+  color: #6366f1;
+}
+
+.chev {
+  width: 14px;
+  height: 14px;
+  color: #94a3b8;
+  transition: all 0.25s;
+}
+
+.user:hover .chev {
+  transform: translateY(2px);
+  color: #6366f1;
+}
+
+@media (max-width: 640px) {
+  .container {
+    padding: 0 16px;
+  }
+
+  .title,
+  .badge,
+  .userInfo,
+  .sep {
+    display: none;
+  }
+}

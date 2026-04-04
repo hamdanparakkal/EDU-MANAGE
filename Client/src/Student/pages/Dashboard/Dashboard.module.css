@@ -1,0 +1,438 @@
+:root {
+  --bg-dark: #090b0e;
+  --bg-card: rgba(255, 255, 255, 0.05);
+  --bg-card-hover: rgba(255, 255, 255, 0.08);
+  --accent-orange: #ff8c00;
+  --accent-blue: #4facfe;
+  --accent-purple: #f093fb;
+  --accent-green: #43e97b;
+  --border-glass: rgba(255, 255, 255, 0.1);
+  --text-primary: #ffffff;
+  --text-secondary: #a0aec0;
+  --font-main: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+.dashboard {
+  padding: 32px;
+  background: var(--bg-dark);
+  min-height: 100vh;
+  color: var(--text-primary);
+  font-family: var(--font-main);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40px;
+}
+
+.welcome h1 {
+  font-size: 32px;
+  font-weight: 800;
+  margin-bottom: 8px;
+  letter-spacing: -1px;
+}
+
+.username {
+  color: var(--accent-orange);
+  background: linear-gradient(135deg, #ff8c00, #ff4500);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.welcome p {
+  color: var(--text-secondary);
+  font-size: 16px;
+}
+
+.headerActions {
+  display: flex;
+  gap: 16px;
+}
+
+.notificationBtn {
+  background: var(--bg-card);
+  border: 1px solid var(--border-glass);
+  color: var(--text-primary);
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.notificationBtn:hover {
+  background: var(--bg-card-hover);
+  transform: translateY(-2px);
+}
+
+.badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 8px;
+  height: 8px;
+  background: #ff4500;
+  border-radius: 50%;
+  border: 2px solid var(--bg-dark);
+}
+
+.mainGrid {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 32px;
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 24px;
+  margin-bottom: 32px;
+}
+
+.statCard {
+  background: var(--bg-card);
+  border: 1px solid var(--border-glass);
+  border-radius: 20px;
+  padding: 24px;
+  backdrop-filter: blur(10px);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.statCard:hover {
+  transform: translateY(-5px);
+  background: var(--bg-card-hover);
+  border-color: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.statIcon {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  margin-bottom: 16px;
+}
+
+.statInfo {
+  margin-bottom: 20px;
+}
+
+.statLabel {
+  display: block;
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin-bottom: 4px;
+}
+
+.statValue {
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.statProgress {
+  height: 4px;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.progressBar {
+  height: 100%;
+  border-radius: 2px;
+}
+
+.bottomRow {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 24px;
+}
+
+.sectionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.sectionHeader h2 {
+  font-size: 18px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.headerIcon {
+  color: var(--accent-orange);
+}
+
+.viewAll {
+  background: none;
+  border: none;
+  color: var(--accent-orange);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.activityFeed, .deadlines {
+  background: var(--bg-card);
+  border: 1px solid var(--border-glass);
+  border-radius: 20px;
+  padding: 24px;
+}
+
+.activities {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.activityItem {
+  display: flex;
+  gap: 16px;
+  position: relative;
+}
+
+.activityDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin-top: 6px;
+  flex-shrink: 0;
+  box-shadow: 0 0 10px currentColor;
+}
+
+.activityContent p {
+  font-size: 14px;
+  margin-bottom: 4px;
+}
+
+.activityContent span {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.deadlineList {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.deadlineItem {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 16px;
+  transition: all 0.2s ease;
+}
+
+.deadlineItem:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.deadlineDate {
+  width: 50px;
+  height: 50px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-glass);
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 16px;
+  color: var(--accent-orange);
+}
+
+.deadlineDate span {
+  font-size: 10px;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+
+.deadlineInfo h4 {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+
+.deadlineInfo p {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+/* Calendar Card */
+.calendarCard {
+  background: var(--bg-card);
+  border: 1px solid var(--border-glass);
+  border-radius: 24px;
+  padding: 24px;
+  margin-bottom: 24px;
+  backdrop-filter: blur(10px);
+}
+
+.calendarHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.calendarHeader h3 {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.calendarNav {
+  display: flex;
+  gap: 8px;
+}
+
+.calendarNav button {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-glass);
+  color: var(--text-primary);
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.calendarNav button:hover {
+  background: var(--accent-orange);
+  border-color: var(--accent-orange);
+}
+
+.calendarGrid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 8px;
+}
+
+.dayHeader {
+  font-size: 11px;
+  text-align: center;
+  color: var(--text-secondary);
+  font-weight: 600;
+  padding-bottom: 8px;
+}
+
+.day {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.day:not(.empty):hover {
+  background: rgba(255, 140, 0, 0.2);
+  color: var(--accent-orange);
+}
+
+.today {
+  background: var(--accent-orange);
+  color: white;
+  font-weight: 700;
+  box-shadow: 0 0 15px rgba(255, 140, 0, 0.4);
+}
+
+.empty {
+  cursor: default;
+}
+
+.calendarFooter {
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border-glass);
+}
+
+.eventHint {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.eventDot {
+  width: 6px;
+  height: 6px;
+  background: var(--accent-orange);
+  border-radius: 50%;
+}
+
+.quickActions {
+  background: linear-gradient(135deg, rgba(255, 140, 0, 0.1), rgba(255, 69, 0, 0.05));
+  border: 1px solid rgba(255, 140, 0, 0.2);
+  border-radius: 20px;
+  padding: 24px;
+}
+
+.quickActions h3 {
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
+.actionGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.actionGrid button {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: white;
+  padding: 12px;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: left;
+}
+
+.actionGrid button:hover {
+  background: white;
+  color: #ff8c00;
+  transform: translateX(5px);
+}
+
+@media (max-width: 1200px) {
+  .mainGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .bottomRow {
+    grid-template-columns: 1fr;
+  }
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+  }
+}

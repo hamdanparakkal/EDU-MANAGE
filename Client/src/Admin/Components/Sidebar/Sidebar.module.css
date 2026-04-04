@@ -1,0 +1,94 @@
+
+
+.sidebar {
+  width: 220px;
+  min-height: 100vh;      /* IMPORTANT */
+  background-color: #1e2a38;
+  position: sticky;      /* stays aligned on scroll */
+  top: 0;
+  transition: width 0.3s ease;
+}
+
+.closed {
+  width: 70px;
+}
+
+/* Toggle Button */
+.toggle {
+  position: absolute;
+  top: 15px;
+  right: -15px;
+  background: #f7f7f8;
+  border-radius: 50%;
+  padding: 6px;
+  cursor: pointer;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+}
+
+.arrow {
+  font-size: 16px;
+  transition: transform 0.3s ease;
+}
+
+.rotate {
+  transform: rotate(180deg);
+}
+
+/* Menu */
+.menu {
+  margin-top: 70px;
+  display: flex;
+  flex-direction: column;
+}
+
+.link {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 12px 20px;
+  padding-bottom: 20px;
+  color: white;
+  text-decoration: none;
+  transition: background 0.3s;
+}
+
+.link:hover {
+  background-color: #2f3e52;
+}
+
+.icon {
+  font-size: 17px;
+  min-width: 22px;
+}
+
+.icons {
+  padding-left: 7px;
+  font-size: 17px;
+  min-width: 22px;
+}
+
+.text {
+  font-size: 15px;
+  white-space: nowrap;
+}
+
+.logout {
+  padding-bottom: 40px;
+  margin-top: auto;
+  color: #f87171;
+}
+
+/* Logout hover state */
+.logout:hover {
+  color: #ef4444;
+  background: #1f2937;
+}
+
+/* Logout icon color */
+.logout .icon {
+  color: #f87171;
+}
+
+.logout:hover .icon {
+  color: #ef4444;
+}

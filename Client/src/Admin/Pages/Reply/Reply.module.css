@@ -1,0 +1,43 @@
+.page {
+  padding: 30px;
+  background: #f4f6fb;
+  min-height: 100vh;
+}
+
+.title {
+  font-size: 26px;
+  margin-bottom: 20px;
+}
+
+.card {
+  background: #fff;
+  padding: 20px;
+  border-radius: 14px;
+  max-width: 650px;
+  box-shadow: 0 8px 22px rgba(0,0,0,0.08);
+}
+
+.complaintBox {
+  background: #f1f5f9;
+  padding: 14px;
+  border-radius: 10px;
+  margin: 15px 0;
+}
+
+.form textarea {
+  width: 100%;
+  height: 120px;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+.submitBtn {
+  margin-top: 12px;
+  background: #2563eb;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+}

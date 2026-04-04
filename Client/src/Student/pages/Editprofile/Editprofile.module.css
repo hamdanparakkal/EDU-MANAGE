@@ -1,0 +1,229 @@
+.container {
+  padding: 32px;
+  background: #090b0e;
+  min-height: 100vh;
+  color: #ffffff;
+  font-family: 'Inter', system-ui, sans-serif;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  margin-bottom: 40px;
+}
+
+.backBtn {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  padding: 10px 18px;
+  border-radius: 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.backBtn:hover {
+  background: rgba(255, 140, 0, 0.1);
+  border-color: #ff8c00;
+  color: #ff8c00;
+  transform: translateX(-5px);
+}
+
+.titleArea h1 {
+  font-size: 32px;
+  font-weight: 800;
+  margin-bottom: 4px;
+  background: linear-gradient(135deg, #ff8c00, #ff4500);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.titleArea p {
+  color: #a0aec0;
+  font-size: 15px;
+}
+
+.formCard {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 40px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 24px;
+  padding: 40px;
+  backdrop-filter: blur(10px);
+}
+
+/* Sidebar / Photo Section */
+.sidebar {
+  border-right: 1px solid rgba(255, 255, 255, 0.08);
+  padding-right: 40px;
+}
+
+.photoSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.avatarWrapper {
+  position: relative;
+  margin-bottom: 24px;
+}
+
+.avatar {
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid rgba(255, 140, 0, 0.2);
+  box-shadow: 0 0 40px rgba(0, 0, 0, 0.5);
+}
+
+.cameraBtn {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  width: 44px;
+  height: 44px;
+  background: #ff8c00;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(255, 140, 0, 0.4);
+  transition: all 0.3s ease;
+}
+
+.cameraBtn:hover {
+  transform: scale(1.1) rotate(15deg);
+  background: #ff4500;
+}
+
+.photoHint {
+  font-size: 12px;
+  color: #718096;
+  line-height: 1.5;
+}
+
+/* Form Area */
+.formArea {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.inputGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+.fullWidth {
+  grid-column: span 2;
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.inputGroup label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #a0aec0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.inputGroup label svg {
+  color: #ff8c00;
+}
+
+.inputGroup input, 
+.inputGroup textarea {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 14px 16px;
+  color: #ffffff;
+  font-size: 15px;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.inputGroup input:focus, 
+.inputGroup textarea:focus {
+  background: rgba(255, 255, 255, 0.02);
+  border-color: #ff8c00;
+  box-shadow: 0 0 15px rgba(255, 140, 0, 0.15);
+}
+
+.readOnly, .disabled {
+  background: rgba(255, 255, 255, 0.02) !important;
+  color: #718096 !important;
+  cursor: not-allowed;
+  border-style: dashed !important;
+}
+
+.formActions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+.saveBtn {
+  background: linear-gradient(135deg, #ff8c00, #ff4500);
+  color: white;
+  padding: 14px 32px;
+  border-radius: 14px;
+  border: none;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 10px 20px rgba(255, 140, 0, 0.2);
+  transition: all 0.3s ease;
+}
+
+.saveBtn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 15px 30px rgba(255, 140, 0, 0.4);
+}
+
+@media (max-width: 1000px) {
+  .formCard {
+    grid-template-columns: 1fr;
+  }
+  
+  .sidebar {
+    border-right: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    padding-right: 0;
+    padding-bottom: 40px;
+  }
+}
+
+@media (max-width: 600px) {
+  .inputGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .fullWidth {
+    grid-column: span 1;
+  }
+}

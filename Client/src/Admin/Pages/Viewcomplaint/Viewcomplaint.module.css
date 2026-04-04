@@ -1,0 +1,260 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+.pageContainer {
+  padding: 40px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  position: relative;
+  z-index: 10;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.header {
+  margin-bottom: 32px;
+  animation: fadeInDown 0.6s ease-out;
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.title {
+  font-size: 28px;
+  font-weight: 800;
+  color: #111827;
+  letter-spacing: -0.03em;
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.title i {
+  color: #fb923c;
+}
+
+.subtitle {
+  font-size: 14px;
+  color: #6b7280;
+  font-weight: 500;
+}
+
+.complaintGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(450px, 1fr));
+  gap: 24px;
+  animation: fadeInUp 0.8s ease-out both;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.glassCard {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 24px;
+  padding: 28px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+  display: flex;
+  flex-direction: column;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glassCard:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+  border-color: rgba(251, 146, 60, 0.2);
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 24px;
+}
+
+.studentInfo {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.avatarWrapper {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 2px solid #fff;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.avatar {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.studentMeta {
+  display: flex;
+  flex-direction: column;
+}
+
+.studentName {
+  font-size: 16px;
+  font-weight: 700;
+  color: #111827;
+  margin: 0;
+}
+
+.studentId {
+  font-size: 12px;
+  font-weight: 600;
+  color: #64748b;
+  margin-top: 2px;
+}
+
+.statusBadge {
+  padding: 6px 12px;
+  border-radius: 10px;
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.pending {
+  background: #fff7ed;
+  color: #ea580c;
+  border: 1px solid rgba(234, 88, 12, 0.1);
+}
+
+.resolved {
+  background: #f0fdf4;
+  color: #16a34a;
+  border: 1px solid rgba(22, 163, 74, 0.1);
+}
+
+.complaintBody {
+  margin-bottom: 24px;
+}
+
+.complaintTitle {
+  font-size: 18px;
+  font-weight: 800;
+  color: #1e293b;
+  margin: 0 0 12px 0;
+  line-height: 1.4;
+}
+
+.complaintText {
+  font-size: 14px;
+  color: #475569;
+  line-height: 1.6;
+  margin-bottom: 16px;
+}
+
+.departmentTag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(251, 146, 60, 0.1);
+  color: #fb923c;
+  padding: 6px 14px;
+  border-radius: 100px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.replySection {
+  margin-top: auto;
+  padding-top: 24px;
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.replyContent {
+  margin-bottom: 20px;
+}
+
+.replyContent strong {
+  display: block;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #94a3b8;
+  margin-bottom: 8px;
+}
+
+.replyContent p {
+  font-size: 14px;
+  font-weight: 500;
+  color: #1e293b;
+  margin: 0;
+  background: rgba(0, 0, 0, 0.03);
+  padding: 12px 16px;
+  border-radius: 12px;
+  line-height: 1.5;
+}
+
+.cardActions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.replyBtn {
+  padding: 10px 20px;
+  background: linear-gradient(135deg, #fb923c 0%, #f43f5e 100%);
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 13px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.3s;
+  box-shadow: 0 8px 16px rgba(244, 63, 94, 0.15);
+}
+
+.replyBtn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 12px 24px rgba(244, 63, 94, 0.25);
+}
+
+.emptyState {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 100px 20px;
+  color: #94a3b8;
+}
+
+.emptyState i {
+  font-size: 56px;
+  margin-bottom: 20px;
+  opacity: 0.2;
+}
+
+@media (max-width: 768px) {
+  .complaintGrid {
+    grid-template-columns: 1fr;
+  }
+}

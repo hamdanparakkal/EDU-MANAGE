@@ -1,0 +1,381 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap');
+
+.page {
+  padding: 10px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  min-height: auto;
+  background: transparent;
+  animation: fadeUp 0.5s ease-out both;
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.loadingWrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 60vh;
+  gap: 14px;
+  color: #94a3b8;
+}
+
+.spinner {
+  width: 36px;
+  height: 36px;
+  border: 3px solid rgba(99, 102, 241, 0.15);
+  border-top-color: #6366f1;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ─── Hero Card — full-width horizontal ─── */
+.heroCard {
+  width: 100%;
+  background: linear-gradient(135deg, #5a5fcf 0%, #7c3aed 45%, #9b59b6 80%, #a855f7 100%);
+  border-radius: 28px;
+  padding: 36px 40px;
+  position: relative;
+  overflow: hidden;
+  box-shadow:
+    0 24px 70px rgba(99, 102, 241, 0.28),
+    0 6px 20px rgba(99, 102, 241, 0.14),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  animation: cardIn 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes cardIn {
+  from {
+    opacity: 0;
+    transform: translateY(-18px) scale(0.97);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.orb1 {
+  position: absolute;
+  top: -80px;
+  right: -80px;
+  width: 280px;
+  height: 280px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+  pointer-events: none;
+}
+
+.orb2 {
+  position: absolute;
+  bottom: -70px;
+  left: -50px;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.05);
+  pointer-events: none;
+}
+
+/* ─── Horizontal flex ─── */
+.horizontal {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  position: relative;
+  z-index: 1;
+}
+
+/* ── Avatar Column ── */
+.avatarCol {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  flex-shrink: 0;
+}
+
+.avatarWrap {
+  position: relative;
+}
+
+.avatar {
+  width: 120px;
+  height: 120px;
+  border-radius: 30px;
+  object-fit: cover;
+  border: 3px solid rgba(255, 255, 255, 0.35);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.22), 0 0 0 6px rgba(255, 255, 255, 0.08);
+  display: block;
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.avatar:hover {
+  transform: scale(1.04) rotate(1.5deg);
+}
+
+.avatarFallback {
+  width: 120px;
+  height: 120px;
+  border-radius: 30px;
+  background: rgba(255, 255, 255, 0.15);
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 36px;
+  font-weight: 800;
+  color: #fff;
+}
+
+.activeBadge {
+  background: rgba(255, 255, 255, 0.95);
+  color: #10b981;
+  font-size: 10px;
+  font-weight: 800;
+  padding: 5px 16px;
+  border-radius: 30px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.activeDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #10b981;
+  animation: dotPulse 1.8s ease-in-out infinite;
+}
+
+@keyframes dotPulse {
+
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.5);
+  }
+
+  50% {
+    box-shadow: 0 0 0 5px rgba(16, 185, 129, 0);
+  }
+}
+
+/* ── Identity Column ── */
+.identityCol {
+  flex: 1;
+  min-width: 0;
+  border-right: 1px solid rgba(255, 255, 255, 0.15);
+  padding-right: 40px;
+}
+
+.roleTag {
+  display: inline-block;
+  background: rgba(255, 255, 255, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  color: rgba(255, 255, 255, 0.95);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 5px 16px;
+  border-radius: 30px;
+  margin-bottom: 10px;
+}
+
+.name {
+  font-size: 30px;
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: -0.04em;
+  margin: 0 0 8px;
+  text-shadow: 0 2px 16px rgba(0, 0, 0, 0.12);
+}
+
+.location {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: rgba(255, 255, 255, 0.65);
+  font-size: 13px;
+  font-weight: 500;
+  margin-bottom: 24px;
+}
+
+.contactsList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.contactRow {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  transition: transform 0.2s;
+}
+
+.contactRow:hover {
+  transform: translateX(3px);
+}
+
+.contactIcon {
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.14);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  flex-shrink: 0;
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.contactRow:hover .contactIcon {
+  transform: scale(1.1) rotate(5deg);
+}
+
+.contactLabel {
+  font-size: 10px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.5);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin: 0 0 2px;
+}
+
+.contactValue {
+  font-size: 13px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.92);
+  margin: 0;
+}
+
+/* ── Stats Column ── */
+.statsCol {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  flex-shrink: 0;
+}
+
+.statItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 18px 16px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 18px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  animation: fadeUp 0.5s ease-out both;
+  text-align: center;
+}
+
+.statItem:hover {
+  background: rgba(255, 255, 255, 0.18);
+  transform: translateY(-4px);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.15);
+}
+
+.statIcon {
+  width: 36px;
+  height: 36px;
+  border-radius: 11px;
+  background: rgba(255, 255, 255, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.statItem:hover .statIcon {
+  transform: scale(1.12) rotate(6deg);
+}
+
+.statValue {
+  font-size: 20px;
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  margin: 0;
+}
+
+.statLabel {
+  font-size: 10px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.55);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin: 0;
+}
+
+/* ─── Responsive ─── */
+@media (max-width: 900px) {
+  .horizontal {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .identityCol {
+    border-right: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+    padding-right: 0;
+    padding-bottom: 24px;
+    width: 100%;
+  }
+
+  .contactRow {
+    justify-content: center;
+  }
+
+  .statsCol {
+    width: 100%;
+  }
+}
+
+@media (max-width: 640px) {
+  .page {
+    padding: 14px;
+  }
+
+  .heroCard {
+    padding: 24px;
+  }
+
+  .name {
+    font-size: 22px;
+  }
+
+  .avatar,
+  .avatarFallback {
+    width: 90px;
+    height: 90px;
+  }
+}

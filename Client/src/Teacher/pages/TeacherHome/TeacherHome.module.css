@@ -1,0 +1,82 @@
+/* ─────────────────────────────────────────────
+   Teacher Home — Clean SaaS Light Background
+───────────────────────────────────────────── */
+
+.wrapper {
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  background: #f8fafc;
+}
+
+.bottomArea {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+  position: relative;
+}
+
+.main {
+  flex: 1;
+  overflow-y: auto;
+  position: relative;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  background: #f8fafc;
+}
+
+.expanded {
+  margin-left: 0;
+}
+
+.collapsed {
+  margin-left: 0;
+}
+
+.contentWrapper {
+  padding: 30px;
+  min-height: calc(100vh - 124px);
+  width: calc(100% - 60px);
+  margin: 30px;
+  background: #ffffff;
+  border-radius: 32px;
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  box-shadow:
+    0 10px 25px -5px rgba(0, 0, 0, 0.02),
+    0 40px 80px -20px rgba(99, 102, 241, 0.08);
+  box-sizing: border-box;
+  animation: contentFadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+}
+
+@keyframes contentFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ── Scrollbar ── */
+.main::-webkit-scrollbar {
+  width: 5px;
+}
+
+.main::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.main::-webkit-scrollbar-thumb {
+  background: rgba(99, 102, 241, 0.18);
+  border-radius: 10px;
+}
+
+.main::-webkit-scrollbar-thumb:hover {
+  background: rgba(99, 102, 241, 0.35);
+}

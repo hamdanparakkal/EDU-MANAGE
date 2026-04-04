@@ -1,0 +1,130 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+.page {
+    padding: 10px;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    min-height: auto;
+    background: transparent;
+    animation: fadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.title {
+    font-size: 32px;
+    font-weight: 800;
+    color: #1e293b;
+    letter-spacing: -0.04em;
+    margin-bottom: 40px;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 24px;
+}
+
+.card {
+    background: #ffffff;
+    border-radius: 28px;
+    padding: 32px;
+    border: 1px solid rgba(226, 232, 240, 0.8);
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.02);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    transition: all 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px -8px rgba(99, 102, 241, 0.1);
+}
+
+.viewBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 14px;
+    background: rgba(99, 102, 241, 0.1);
+    color: #4f46e5;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 14px;
+    border-radius: 16px;
+    transition: all 0.3s;
+}
+
+.viewBtn:hover {
+    background: #4f46e5;
+    color: #fff;
+}
+
+.status {
+    font-size: 13px;
+    font-weight: 800;
+    color: #64748b;
+    text-transform: uppercase;
+    text-align: center;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.approveBtn,
+.rejectBtn {
+    padding: 12px;
+    border: none;
+    border-radius: 14px;
+    font-family: inherit;
+    font-weight: 700;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.approveBtn {
+    background: #10b981;
+    color: white;
+}
+
+.approveBtn:hover {
+    background: #059669;
+}
+
+.rejectBtn {
+    background: #f43f5e;
+    color: white;
+}
+
+.rejectBtn:hover {
+    background: #e11d48;
+}
+
+.empty {
+    text-align: center;
+    padding: 100px 40px;
+    color: #94a3b8;
+}
+
+@media (max-width: 600px) {
+    .page {
+        padding: 24px 16px;
+    }
+}

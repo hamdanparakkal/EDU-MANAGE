@@ -1,0 +1,217 @@
+.navbar {
+  height: 70px;
+  background: rgba(15, 17, 21, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  color: #ffffff;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+}
+
+.left {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.toggleWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.toggleBtn {
+  background: linear-gradient(135deg, rgba(255, 140, 0, 0.1), rgba(255, 69, 0, 0.05));
+  border: 1px solid rgba(255, 140, 0, 0.2);
+  color: #ffffff;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.toggleBtn:hover {
+  background: linear-gradient(135deg, rgba(255, 140, 0, 0.2), rgba(255, 69, 0, 0.1));
+  border-color: rgba(255, 140, 0, 0.5);
+  box-shadow: 0 0 20px rgba(255, 140, 0, 0.3);
+  transform: translateY(-2px);
+}
+
+.hamburger {
+  width: 20px;
+  height: 14px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+}
+
+.bar {
+  width: 100%;
+  height: 2px;
+  background-color: #ffffff;
+  border-radius: 2px;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.toggleActive .bar:nth-child(1) {
+  transform: translateY(6px) rotate(45deg);
+  background-color: #ff8c00;
+}
+
+.toggleActive .bar:nth-child(2) {
+  opacity: 0;
+  transform: translateX(-10px);
+}
+
+.toggleActive .bar:nth-child(3) {
+  transform: translateY(-6px) rotate(-45deg);
+  background-color: #ff8c00;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  color: #ffffff;
+}
+
+.iconWrapper {
+  background: linear-gradient(135deg, #ff8c00, #ff4500);
+  padding: 8px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 15px rgba(255, 140, 0, 0.4);
+}
+
+.icon {
+  font-size: 18px;
+}
+
+.title {
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+}
+
+.highlight {
+  color: #ff8c00;
+}
+
+.right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.premiumBadge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 140, 0, 0.1);
+  border: 1px solid rgba(255, 140, 0, 0.3);
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #ff8c00;
+  letter-spacing: 0.5px;
+}
+
+.boltIcon {
+  font-size: 10px;
+}
+
+.actionBtn {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #a0aec0;
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.actionBtn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+}
+
+.badge {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 8px;
+  height: 8px;
+  background: #ff4500;
+  border-radius: 50%;
+  border: 2px solid #0f1115;
+}
+
+.userSection {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-left: 16px;
+  border-left: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.userInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.userName {
+  font-size: 14px;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.userRole {
+  font-size: 11px;
+  color: #718096;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ff8c00;
+  transition: all 0.3s ease;
+}
+
+.avatar:hover {
+  border-color: #ff8c00;
+  box-shadow: 0 0 10px rgba(255, 140, 0, 0.3);
+}

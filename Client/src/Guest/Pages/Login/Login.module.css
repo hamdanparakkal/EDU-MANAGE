@@ -1,0 +1,231 @@
+.page {
+    position: relative;
+    min-height: 100vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 100px 20px 60px;
+    background: transparent;
+    /* Show global animated background */
+    overflow: visible;
+    z-index: 5;
+}
+
+.page::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('https://www.transparenttextures.com/patterns/carbon-fibre.png');
+    opacity: 0.05;
+    pointer-events: none;
+}
+
+/* LOGIN CARD */
+
+.card {
+    width: 100%;
+    max-width: 420px;
+    padding: 48px;
+    border-radius: 32px;
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(30px) saturate(150%);
+    -webkit-backdrop-filter: blur(30px) saturate(150%);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow:
+        0 25px 50px -12px rgba(0, 0, 0, 0.5),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+    color: white;
+    text-align: center;
+    margin: auto;
+    animation: smoothCardEntrance 1s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes smoothCardEntrance {
+    from {
+        opacity: 0;
+        transform: scale(0.95) translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+/* TITLE */
+
+.card h2 {
+    font-size: 32px;
+    font-weight: 850;
+    margin-bottom: 8px;
+    letter-spacing: -0.03em;
+    background: linear-gradient(135deg, #fff 0%, rgba(255, 255, 255, 0.7) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* subtitle */
+
+.subtitle {
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 15px;
+    font-weight: 500;
+    margin-bottom: 32px;
+}
+
+/* form fields */
+
+.field {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 24px;
+    text-align: left;
+}
+
+.field label {
+    font-size: 12px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: rgba(255, 255, 255, 0.6);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding-left: 4px;
+}
+
+.field input {
+    padding: 14px 18px;
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.05);
+    color: white;
+    outline: none;
+    font-size: 15px;
+    font-weight: 500;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.field input::placeholder {
+    color: rgba(255, 255, 255, 0.2);
+}
+
+/* input focus glow */
+
+.field input:focus {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(0, 198, 255, 0.5);
+    box-shadow: 0 0 0 4px rgba(0, 198, 255, 0.1);
+    transform: translateY(-1px);
+}
+
+/* LOGIN BUTTON */
+
+.loginBtn {
+    width: 100%;
+    padding: 16px;
+    margin-top: 12px;
+    border: none;
+    border-radius: 16px;
+    background: linear-gradient(135deg, #00c6ff 0%, #0072ff 100%);
+    color: white;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 10px 25px rgba(0, 114, 255, 0.3);
+}
+
+.loginBtn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 35px rgba(0, 114, 255, 0.5);
+    filter: brightness(1.1);
+}
+
+/* error message */
+
+.errorBox {
+    background: rgba(244, 63, 94, 0.1);
+    border: 1px solid rgba(244, 63, 94, 0.2);
+    color: #fb7185;
+    padding: 14px;
+    border-radius: 16px;
+    margin-bottom: 24px;
+    font-size: 14px;
+    font-weight: 600;
+    animation: shake 0.5s cubic-bezier(.36, .07, .19, .97) both;
+}
+
+@keyframes shake {
+
+    10%,
+    90% {
+        transform: translate3d(-1px, 0, 0);
+    }
+
+    20%,
+    80% {
+        transform: translate3d(2px, 0, 0);
+    }
+
+    30%,
+    50%,
+    70% {
+        transform: translate3d(-4px, 0, 0);
+    }
+
+    40%,
+    60% {
+        transform: translate3d(4px, 0, 0);
+    }
+}
+
+/* divider */
+
+.divider {
+    margin: 32px 0;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.divider::before,
+.divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.divider span {
+    color: rgba(255, 255, 255, 0.3);
+    font-size: 12px;
+    font-weight: 700;
+}
+
+/* register text */
+
+.registerText {
+    font-size: 15px;
+    color: rgba(255, 255, 255, 0.5);
+    font-weight: 500;
+}
+
+/* register link */
+
+.registerLink {
+    color: #00c6ff;
+    font-weight: 700;
+    text-decoration: none;
+    transition: all 0.3s;
+    padding-left: 4px;
+}
+
+.registerLink:hover {
+    color: #6dd5fa;
+    text-decoration: none;
+    filter: drop-shadow(0 0 8px rgba(0, 198, 255, 0.4));
+}
