@@ -1,120 +1,151 @@
 .navWrapper {
-    display: flex;
-    justify-content: center;
-    position: absolute;
-    /* Changed to absolute since parent header is fixed */
-    top: 24px;
+    position: fixed;
+    top: 0;
     left: 0;
     width: 100%;
     z-index: 1000;
-    padding: 0 20px;
-    animation: slideInDown 1s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-@keyframes slideInDown {
-    from {
-        transform: translateY(-30px);
-        opacity: 0;
-    }
-
-    to {
-        transform: translateY(0);
-        opacity: 1;
-    }
+    padding: 20px 0;
+    display: flex;
+    justify-content: center;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .container {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 10px 24px;
-    width: 100%;
-    max-width: 650px;
-    background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(25px) saturate(180%);
-    -webkit-backdrop-filter: blur(25px) saturate(180%);
-    border-radius: 200px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    box-shadow:
-        0 15px 35px rgba(0, 0, 0, 0.3),
-        inset 0 0 0 1px rgba(255, 255, 255, 0.1);
-    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    padding: 10px 14px 10px 24px;
+    width: 90%;
+    max-width: 1200px;
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(20px) saturate(160%);
+    -webkit-backdrop-filter: blur(20px) saturate(160%);
+    border-radius: 100px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.3),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+    animation: slideInDown 1.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.container:hover {
-    background: rgba(255, 255, 255, 0.08);
-    border-color: rgba(255, 255, 255, 0.3);
-    transform: translateY(-1px);
+@keyframes slideInDown {
+    from { transform: translateY(-100%) scale(0.9); opacity: 0; }
+    to { transform: translateY(0) scale(1); opacity: 1; }
 }
 
-.logo {
-    font-size: 20px;
-    font-weight: 850;
-    letter-spacing: -0.03em;
-    background: linear-gradient(135deg, #00c6ff 0%, #0072ff 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    margin: 0;
+/* LOGO GROUP */
+.logoGroup {
+    display: flex;
+    align-items: center;
+    gap: 12px;
     cursor: pointer;
     transition: transform 0.3s ease;
 }
 
-.actions {
-    display: flex;
-    gap: 4px;
-    align-items: center;
+.logoGroup:hover {
+    transform: scale(1.02);
 }
 
-.actions button {
+.logoIcon {
+    width: 42px;
+    height: 42px;
+    background: linear-gradient(135deg, #00c6ff 0%, #0072ff 100%);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 20px;
+    box-shadow: 0 8px 16px rgba(0, 114, 255, 0.3);
+}
+
+.logoTitle {
+    font-size: 22px;
+    font-weight: 850;
+    letter-spacing: -0.04em;
+    color: white;
+    margin: 0;
+}
+
+.logoTitle span {
+    background: linear-gradient(135deg, #00c6ff 0%, #0072ff 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* NAV ITEMS (Common for Home, Sign In) */
+.navItem,
+.loginBtn {
     background: transparent;
     border: none;
     color: rgba(255, 255, 255, 0.7);
-    cursor: pointer;
     font-size: 14px;
     font-weight: 600;
-    padding: 8px 18px;
+    padding: 10px 20px;
     border-radius: 100px;
-    position: relative;
+    cursor: pointer;
     transition: all 0.3s ease;
 }
 
-.actions button::after {
-    content: '';
-    position: absolute;
-    bottom: 0px;
-    left: 50%;
-    width: 0;
-    height: 3px;
-    background: linear-gradient(90deg, #00c6ff, #0072ff);
-    border-radius: 4px;
-    transform: translateX(-50%);
-    transition: width 0.3s ease;
-}
-
-.actions button:hover {
+.navItem:hover,
+.loginBtn:hover {
     color: white;
     background: rgba(255, 255, 255, 0.08);
+    transform: translateY(-1px);
 }
 
-.actions button:hover::after {
-    width: 20px;
+/* ACTIONS */
+.actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
 }
 
-/* Removed .teacher special class for a unified look */
+.loginBtn {
+    background: transparent;
+    border: none;
+    color: white;
+    font-size: 14px;
+    font-weight: 700;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.loginBtn:hover {
+    filter: brightness(1.2);
+    text-shadow: 0 0 10px rgba(255,255,255,0.3);
+}
+
+.registerBtn {
+    background: linear-gradient(135deg, #00c6ff 0%, #0072ff 100%);
+    border: none;
+    color: white;
+    font-size: 14px;
+    font-weight: 700;
+    padding: 12px 24px;
+    border-radius: 100px;
+    cursor: pointer;
+    box-shadow: 0 10px 20px rgba(0, 114, 255, 0.2);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.registerBtn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 15px 30px rgba(0, 114, 255, 0.4);
+    filter: brightness(1.1);
+}
+
+@media (max-width: 992px) {
+    .navLinks { display: none; }
+}
 
 @media (max-width: 640px) {
-    .container {
-        max-width: 95%;
-        padding: 8px 16px;
-    }
-
-    .logo {
-        font-size: 16px;
-    }
-
-    .actions button {
-        padding: 6px 12px;
-        font-size: 13px;
-    }
+    .logoTitle { display: none; }
+    .container { width: 95%; padding: 8px 8px 8px 16px; }
+    .registerBtn { padding: 10px 18px; font-size: 13px; }
 }

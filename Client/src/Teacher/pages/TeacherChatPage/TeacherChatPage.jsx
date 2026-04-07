@@ -95,7 +95,7 @@ const TeacherChatPage = () => {
 
         {/* Input */}
         <div className={styles.chatInputBox}>
-          <button className={styles.attachBtn}><i className="fa-solid fa-paperclip"></i></button>
+          
           <input type="text" className={styles.inputField} value={text} placeholder="Write your message here..."
             onChange={(e) => setText(e.target.value)}
             onKeyDown={(e) => { if (e.key === "Enter") sendMessage(); }} />

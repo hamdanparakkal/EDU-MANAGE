@@ -56,6 +56,29 @@ const StudentRegistration = () => {
     if (!/^[0-9]{10}$/.test(studentContact)) { alert("Contact must be 10 digits"); return; }
     if (!studentPhoto) { alert("Profile photo required"); return; }
 
+    // Check Email Uniqueness across all roles
+    try {
+      const [resAdmin, resTeacher, resStudent] = await Promise.all([
+        axios.get("http://localhost:5000/admin"),
+        axios.get("http://localhost:5000/teacher"),
+        axios.get("http://localhost:5000/student")
+      ]);
+
+      const allEmails = [
+        ...(resAdmin.data.data || []).map(u => u.adminEmail),
+        ...(resTeacher.data.data || []).map(u => u.teacherEmail),
+        ...(resStudent.data.data || []).map(u => u.studentEmail)
+      ];
+
+      if (allEmails.includes(studentEmail)) {
+        alert("email already existed");
+        return;
+      }
+    } catch (error) {
+      console.error("Error checking email uniqueness:", error);
+    }
+
+
     const fd = new FormData();
     fd.append("studentName", studentName);
     fd.append("studentEmail", studentEmail);

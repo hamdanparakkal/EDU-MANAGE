@@ -1,24 +1,14 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
 
-const enrollments = [
-  { avatar: "AM", name: "Aisha Mohammed", dept: "Computer Science", course: "React Fundamentals", due: "Jun 26", status: "active", color: "#fb923c" },
-  { avatar: "RK", name: "Rohan Kumar", dept: "Data Science", course: "Python for ML", due: "Jul 10", status: "pending", color: "#10b981" },
-  { avatar: "FS", name: "Fatima Sheikh", dept: "Design", course: "UI/UX Principles", due: "Aug 3", status: "active", color: "#f43f5e" },
-  { avatar: "JT", name: "James Thornton", dept: "Engineering", course: "System Architecture", due: "Sep 12", status: "inactive", color: "#6366f1" },
-];
 
-const updates = [
-  { icon: "🎓", text: "28 New Enrollments Today", sub: "Students joined React Fundamentals & Python ML.", time: "2 hrs ago", accent: "#fb923c" },
-  { icon: "📚", text: "New Course Published", sub: "Advanced Node.js is now live for enrollment.", time: "3 hrs ago", accent: "#10b981" },
-  { icon: "📝", text: "Assignment Deadline Tomorrow", sub: "UI/UX Principles — 42 submissions pending.", time: "5 hrs ago", accent: "#f59e0b" },
-  { icon: "🏆", text: "Certificates Issued", sub: "15 students completed Web Dev Bootcamp.", time: "Yesterday", accent: "#6366f1" },
-];
 
 const STATUS = {
-  active: { bg: "#f0fdf4", color: "#16a34a", label: "Active" },
-  pending: { bg: "#fffbeb", color: "#d97706", label: "Pending" },
-  inactive: { bg: "#fef2f2", color: "#dc2626", label: "Inactive" },
+  0: { bg: "#fffbeb", color: "#d97706", label: "Pending" },
+  1: { bg: "#f0fdf4", color: "#16a34a", label: "Active" },
+  2: { bg: "#fef2f2", color: "#dc2626", label: "Inactive" },
 };
+
 
 const Spark = ({ color, up }) => {
   const pts = up
@@ -44,6 +34,76 @@ const BarChart = ({ data, color }) => (
 );
 
 export default function DashboardContent() {
+  const [stats, setStats] = useState({
+    totalStudents: 0,
+    totalTeachers: 0,
+    totalDepartments: 0,
+    totalCourses: 0,
+    totalSubjects: 0,
+    totalClasses: 0,
+    recentStudents: [],
+    recentFeedback: [],
+    recentComplaints: []
+  });
+
+  useEffect(() => {
+    const endpoints = [
+      "student",
+      "teacher",
+      "department",
+      "course",
+      "subject",
+      "class",
+      "admin/complaint",
+      "admin/feedback"
+    ];
+
+    const fetchData = async () => {
+      try {
+        const results = await Promise.all(
+          endpoints.map(ep => axios.get(`http://localhost:5000/${ep}`))
+        );
+
+        setStats({
+          totalStudents: results[0].data.data?.length || 0,
+          totalTeachers: results[1].data.data?.length || 0,
+          totalDepartments: results[2].data.data?.length || 0,
+          totalCourses: results[3].data.data?.length || 0,
+          totalSubjects: results[4].data.data?.length || 0,
+          totalClasses: results[5].data.data?.length || 0,
+          recentStudents: (results[0].data.data || []).slice(-4).reverse(),
+          recentComplaints: (results[6].data.data || []).slice(0, 4),
+          recentFeedback: (results[7].data.data || []).slice(0, 4)
+        });
+      } catch (err) {
+        console.error("Error fetching dashboard data:", err);
+      }
+    };
+    fetchData();
+  }, []);
+
+
+  const getRandomColor = (name) => {
+    const colors = ["#fb923c", "#10b981", "#f43f5e", "#6366f1", "#8b5cf6", "#f59e0b"];
+    const index = name.length % colors.length;
+    return colors[index];
+  };
+
+  const getTimeAgo = (date) => {
+    const seconds = Math.floor((new Date() - new Date(date)) / 1000);
+    let interval = seconds / 31536000;
+    if (interval > 1) return Math.floor(interval) + " years ago";
+    interval = seconds / 2592000;
+    if (interval > 1) return Math.floor(interval) + " months ago";
+    interval = seconds / 86400;
+    if (interval > 1) return Math.floor(interval) + " days ago";
+    interval = seconds / 3600;
+    if (interval > 1) return Math.floor(interval) + " hours ago";
+    interval = seconds / 60;
+    if (interval > 1) return Math.floor(interval) + " minutes ago";
+    return Math.floor(seconds) + " seconds ago";
+  };
+
   return (
     <>
       <style>{`
@@ -191,10 +251,10 @@ export default function DashboardContent() {
                 <i className="fa-solid fa-user-graduate" />
               </div>
             </div>
-            <div className="sc-val">3,842</div>
+            <div className="sc-val">{stats.totalStudents.toLocaleString()}</div>
             <div className="sc-desc">Active learners across all cohorts</div>
             <div className="sc-pills">
-              <span className="pill" style={{ background: "rgba(59,130,246,0.1)", color: "#2563eb" }}>+210 Monthly</span>
+              <span className="pill" style={{ background: "rgba(59,130,246,0.1)", color: "#2563eb" }}>+ {Math.floor(stats.totalStudents * 0.05)} Monthly</span>
               <span className="pill" style={{ background: "rgba(16,185,129,0.1)", color: "#059669" }}>92% Satisfaction</span>
             </div>
           </div>
@@ -207,11 +267,11 @@ export default function DashboardContent() {
                 <i className="fa-solid fa-book-open" />
               </div>
             </div>
-            <div className="sc-val">47</div>
+            <div className="sc-val">{stats.totalCourses}</div>
             <div className="sc-desc">Curriculums live this semester</div>
             <div className="sc-pills">
-              <span className="pill" style={{ background: "rgba(16,185,129,0.1)", color: "#059669" }}>12 Top Rated</span>
-              <span className="pill" style={{ background: "rgba(251,146,60,0.1)", color: "#ea580c" }}>5 New</span>
+              <span className="pill" style={{ background: "rgba(16,185,129,0.1)", color: "#059669" }}>{stats.totalSubjects} Subjects</span>
+              <span className="pill" style={{ background: "rgba(251,146,60,0.1)", color: "#ea580c" }}>New</span>
             </div>
           </div>
 
@@ -223,12 +283,12 @@ export default function DashboardContent() {
                 <i className="fa-solid fa-building-columns" />
               </div>
             </div>
-            <div className="sc-val">8</div>
+            <div className="sc-val">{stats.totalDepartments}</div>
             <div className="sc-desc">Core academic faculties</div>
-            <span className="tag" style={{ background: "rgba(16,185,129,0.1)", color: "#059669" }}>↑ Expanded recently</span>
+            <span className="tag" style={{ background: "rgba(16,185,129,0.1)", color: "#059669" }}>↑ Primary Units</span>
             <div className="sc-mini">
-              <div className="sc-mini-item"><div className="sc-mini-val">15</div><div className="sc-mini-lbl">Faculties</div></div>
-              <div className="sc-mini-item"><div className="sc-mini-val">118</div><div className="sc-mini-lbl">Modules</div></div>
+              <div className="sc-mini-item"><div className="sc-mini-val">{stats.totalTeachers}</div><div className="sc-mini-lbl">Teachers</div></div>
+              <div className="sc-mini-item"><div className="sc-mini-val">{stats.totalClasses}</div><div className="sc-mini-lbl">Classes</div></div>
             </div>
           </div>
 
@@ -241,6 +301,7 @@ export default function DashboardContent() {
               </div>
             </div>
             <div className="sc-val">84%</div>
+
             <div className="sc-desc">Average student success rate</div>
             <div style={{ marginTop: 10 }}>
               <Spark color="#8b5cf6" up={true} />
@@ -261,23 +322,29 @@ export default function DashboardContent() {
             <table className="tbl">
               <thead><tr><th>Student</th><th>Course Faculty</th><th>Joined</th><th>Status</th></tr></thead>
               <tbody>
-                {enrollments.map((e, i) => (
+                {stats.recentStudents.map((e, i) => (
                   <tr key={i}>
                     <td>
                       <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-                        <div className="av" style={{ background: e.color, border: "2px solid rgba(255,255,255,0.8)" }}>{e.avatar}</div>
-                        <div><div className="aname">{e.name}</div><div className="adept">{e.dept}</div></div>
+                        {e.studentPhoto ? (
+                          <img src={`http://localhost:5000${e.studentPhoto}`} alt="" style={{ width: 36, height: 36, borderRadius: 10, objectFit: "cover" }} />
+                        ) : (
+                          <div className="av" style={{ background: getRandomColor(e.studentName), border: "2px solid rgba(255,255,255,0.8)" }}>{e.studentName.charAt(0)}</div>
+                        )}
+                        <div><div className="aname">{e.studentName}</div><div className="adept">Roll No: {e.studentRollno}</div></div>
                       </div>
                     </td>
-                    <td><span style={{ fontSize: 13, color: "#374151", fontWeight: 600 }}>{e.course}</span></td>
-                    <td><span style={{ fontSize: 12, color: "#9ca3af", fontWeight: 500 }}>{e.due}</span></td>
+                    <td><span style={{ fontSize: 13, color: "#374151", fontWeight: 600 }}>Student ID: {e.studentId}</span></td>
+                    <td><span style={{ fontSize: 12, color: "#9ca3af", fontWeight: 500 }}>{new Date(e.createdAt).toLocaleDateString()}</span></td>
                     <td>
-                      <span className="badge" style={{ background: STATUS[e.status].bg, color: STATUS[e.status].color }}>
-                        {STATUS[e.status].label}
+                      <span className="badge" style={{ background: STATUS[e.studentStatus]?.bg || "#f3f4f6", color: STATUS[e.studentStatus]?.color || "#6b7280" }}>
+                        {STATUS[e.studentStatus]?.label || "N/A"}
                       </span>
                     </td>
                   </tr>
                 ))}
+
+
               </tbody>
             </table>
           </div>
@@ -288,16 +355,33 @@ export default function DashboardContent() {
               <div className="panel-title">System Logs</div>
               <div className="panel-link">History</div>
             </div>
-            {updates.map((u, i) => (
-              <div className="upd" key={i}>
-                <div className="upd-ico" style={{ background: u.accent + "20", color: u.accent }}>{u.icon}</div>
-                <div>
-                  <div className="upd-txt">{u.text}</div>
-                  <div className="upd-sub">{u.sub}</div>
-                  <div className="upd-time">{u.time}</div>
+            {stats.recentFeedback.length > 0 ? (
+              stats.recentFeedback.map((u, i) => (
+                <div className="upd" key={i}>
+                  <div className="upd-ico" style={{ background: "#fb923c20", color: "#fb923c" }}>💬</div>
+                  <div>
+                    <div className="upd-txt">New Feedback</div>
+                    <div className="upd-sub">{u.feedbackContent.substring(0, 50)}...</div>
+                    <div className="upd-time">{getTimeAgo(u.createdAt)}</div>
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))
+            ) : (
+                stats.recentComplaints.map((u, i) => (
+                  <div className="upd" key={i}>
+                    <div className="upd-ico" style={{ background: "#f43f5e20", color: "#f43f5e" }}>🚩</div>
+                    <div>
+                      <div className="upd-txt">{u.complaintTitle}</div>
+                      <div className="upd-sub">{u.complaintContent.substring(0, 50)}...</div>
+                      <div className="upd-time">{getTimeAgo(u.createdAt)}</div>
+                    </div>
+                  </div>
+                ))
+            )}
+            {stats.recentFeedback.length === 0 && stats.recentComplaints.length === 0 && (
+              <div style={{ padding: 20, textAlign: "center", color: "#9ca3af", fontSize: 13 }}>No recent logs</div>
+            )}
+
           </div>
 
         </div>
@@ -305,10 +389,11 @@ export default function DashboardContent() {
         {/* ── BOTTOM ROW ── */}
         <div className="brow">
           {[
-            { label: "Live Sessions", val: "12", sub: "Active lecture halls", tag: "↑ 4 starting soon", tBg: "rgba(59,130,246,0.1)", tC: "#2563eb", sc: "#3b82f6", up: true },
-            { label: "Resource Usage", val: "94%", sub: "Storage & Compute", tag: "Optimal", tBg: "rgba(16,185,129,0.1)", tC: "#16a34a", sc: "#10b981", up: true },
-            { label: "Security Status", val: "Safe", sub: "All systems go", tag: "Shield Active", tBg: "rgba(16,185,129,0.1)", tC: "#16a34a", sc: "#10b981", up: true },
+            { label: "Total Teachers", val: stats.totalTeachers, sub: "Faculty strength", tag: "↑ 2 New", tBg: "rgba(59,130,246,0.1)", tC: "#2563eb", sc: "#3b82f6", up: true },
+            { label: "Live Classes", val: stats.totalClasses, sub: "Running batches", tag: "Active", tBg: "rgba(16,185,129,0.1)", tC: "#16a34a", sc: "#10b981", up: true },
+            { label: "Subjects", val: stats.totalSubjects, sub: "Across all sems", tag: "Shield Active", tBg: "rgba(16,185,129,0.1)", tC: "#16a34a", sc: "#10b981", up: true },
           ].map(m => (
+
             <div className="mc wc" key={m.label}>
               <div className="mc-top">
                 <div className="mc-label">{m.label}</div>

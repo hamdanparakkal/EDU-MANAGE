@@ -33,28 +33,23 @@ const Navbar = ({ sidebarOpen, setSidebarOpen }) => {
           <div className={styles.iconWrapper}>
             <FaGraduationCap className={styles.icon} />
           </div>
-          <span className={styles.title}>Edu<span className={styles.highlight}>Pulse</span></span>
+          <span className={styles.title}>Edu<span className={styles.highlight}>Manage</span></span>
         </Link>
       </div>
 
       <div className={styles.right}>
-        <div className={styles.premiumBadge}>
-          <FaBolt className={styles.boltIcon} />
-          <span>PRO</span>
-        </div>
+       
 
         <button className={styles.actionBtn}>
           <FaBell size={18} />
           <span className={styles.badge}></span>
         </button>
-        <button className={styles.actionBtn}>
-          <FaGear size={18} />
-        </button>
+        
         
         <div className={styles.userSection}>
           <div className={styles.userInfo}>
             <span className={styles.userName}>Student</span>
-            <span className={styles.userRole}>Premium Member</span>
+            
           </div>
           <div className={styles.avatar}>
             <FaUser size={18} />

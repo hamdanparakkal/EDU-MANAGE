@@ -66,7 +66,9 @@ const Login = () => {
 
   return (
     <div className={styles.page}>
+      <div className={styles.blurBlob}></div>
       <div className={styles.card}>
+
 
         <h2>Login</h2>
         <p className={styles.subtitle}>Please login to continue</p>

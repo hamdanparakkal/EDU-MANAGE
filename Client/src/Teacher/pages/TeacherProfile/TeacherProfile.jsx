@@ -33,7 +33,7 @@ const TeacherProfile = () => {
     : null;
 
   const stats = [
-    { label: "Students", value: "120+", icon: <Users size={18} /> },
+    { label: "Students", value: "10+", icon: <Users size={18} /> },
     { label: "Courses", value: "8", icon: <BookOpen size={18} /> },
     { label: "Rating", value: "4.8", icon: <Star size={18} /> },
     { label: "Years", value: "5", icon: <Briefcase size={18} /> },

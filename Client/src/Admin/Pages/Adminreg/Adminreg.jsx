@@ -61,6 +61,34 @@ const Adminreg = () => {
             return;
         }
 
+        // Check Email Uniqueness across all roles
+        try {
+            const [resAdmin, resTeacher, resStudent] = await Promise.all([
+                axios.get("http://localhost:5000/admin"),
+                axios.get("http://localhost:5000/teacher"),
+                axios.get("http://localhost:5000/student")
+            ]);
+
+            const allEmails = [
+                ...(resAdmin.data.data || []).map(u => u.adminEmail),
+                ...(resTeacher.data.data || []).map(u => u.teacherEmail),
+                ...(resStudent.data.data || []).map(u => u.studentEmail)
+            ];
+
+            // If editing, exclude the current admin's email from the check
+            const isDuplicate = allEmails.some(email => 
+                email === adminregEmail && email !== (adminregEdit ? adminregRows.find(r => r.adminId === adminregEdit)?.adminEmail : null)
+            );
+
+            if (isDuplicate) {
+                alert("email already existed");
+                return;
+            }
+        } catch (error) {
+            console.error("Error checking email uniqueness:", error);
+        }
+
+
         const data = {
             adminName: adminreg,
             adminEmail: adminregEmail,

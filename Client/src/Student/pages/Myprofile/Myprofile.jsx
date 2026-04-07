@@ -57,7 +57,7 @@ const Myprofile = () => {
       <div className={styles.profileGrid}>
         <div className={styles.idCard}>
           <div className={styles.cardHeader}>
-            <div className={styles.chip}>PREMIUM STUDENT</div>
+            <div className={styles.chip}>STUDENT</div>
           </div>
           <div className={styles.cardBody}>
             <div className={styles.avatarWrapper}>
@@ -103,4 +103,4 @@ const Myprofile = () => {
   );
 };
 
-export default Myprofile;
+export default Myprofile;

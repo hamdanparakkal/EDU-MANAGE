@@ -122,7 +122,7 @@ const Course = () => {
               type="text"
               placeholder="e.g. B.Tech Computer Science"
               value={courseName}
-              maxLength={15}
+              maxLength={20}
               onChange={(e) => setCourseName(e.target.value)}
             />
           </div>

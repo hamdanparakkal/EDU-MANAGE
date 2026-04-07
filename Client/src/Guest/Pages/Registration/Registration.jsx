@@ -43,7 +43,7 @@ const Registration = () => {
     // CONTACT VALIDATION
     const contactPattern = /^[0-9]{10}$/;
     if (!contactPattern.test(teacherContact)) {
-      alert("Contact must be exactly 10 digits");
+      alert("Contact must be valid and exactly 10 digits");
       return;
     }
 
@@ -65,9 +65,9 @@ const Registration = () => {
       return;
     }
 
-    const allowedTypes = ["image/jpeg", "image/png", "image/jpg"];
+    const allowedTypes = ["image/jpeg", "image/png", "image/jpg" , "image/webp"];
     if (!allowedTypes.includes(teacherPhoto.type)) {
-      alert("Only JPG, JPEG, PNG images are allowed");
+      alert("Only JPG, JPEG, PNG , WEBP images are allowed");
       return;
     }
 
@@ -75,6 +75,29 @@ const Registration = () => {
       alert("Image size must be less than 2MB");
       return;
     }
+
+    // Check Email Uniqueness across all roles
+    try {
+      const [resAdmin, resTeacher, resStudent] = await Promise.all([
+        axios.get("http://localhost:5000/admin"),
+        axios.get("http://localhost:5000/teacher"),
+        axios.get("http://localhost:5000/student")
+      ]);
+
+      const allEmails = [
+        ...(resAdmin.data.data || []).map(u => u.adminEmail),
+        ...(resTeacher.data.data || []).map(u => u.teacherEmail),
+        ...(resStudent.data.data || []).map(u => u.studentEmail)
+      ];
+
+      if (allEmails.includes(teacherEmail)) {
+        alert("email already existed");
+        return;
+      }
+    } catch (error) {
+      console.error("Error checking email uniqueness:", error);
+    }
+
 
     // API call
     const fd = new FormData();
@@ -113,7 +136,9 @@ const Registration = () => {
 
   return (
     <div className={styles.page}>
+      <div className={styles.blurBlob}></div>
       <div className={styles.card}>
+
         <h2 className={styles.title}>Teacher Registration</h2>
         <p className={styles.subtitle}>
           Join EduManage Academic Platform
@@ -182,7 +207,7 @@ const Registration = () => {
           <div className={styles.field}>
             <label>Profile Photo</label>
 
-            <div className={styles.fileUpload}>
+            <div className={`${styles.fileUpload} ${teacherPhoto ? styles.uploaded : ""}`}>
               <input
                 key={fileResetKey}
                 type="file"
@@ -191,7 +216,7 @@ const Registration = () => {
                 onChange={(e) => setTeacherPhoto(e.target.files[0])}
               />
 
-              <span>Upload Photo</span>
+              <span>{teacherPhoto ? `Photo Selected: ${teacherPhoto.name}` : "Upload Photo"}</span>
             </div>
           </div>
 

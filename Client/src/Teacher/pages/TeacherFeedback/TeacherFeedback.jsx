@@ -14,11 +14,14 @@ const TeacherFeedback = () => {
 
     const fetchFeedback = async () => {
         try {
-            const res = await axios.get("http://localhost:5000/feedback");
-            const filtered = res.data.data.filter(f => String(f.teacherId) === String(teacherId));
-            setFeedbackList(filtered.reverse());
-        } catch (err) { console.error(err); }
+            if (!teacherId) return;
+            const res = await axios.get(`http://localhost:5000/feedback-by-teacher/${teacherId}`);
+            setFeedbackList(res.data.data);
+        } catch (err) { 
+            console.error(err); 
+        }
     };
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();

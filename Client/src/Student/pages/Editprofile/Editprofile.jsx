@@ -44,9 +44,9 @@ const Editprofile = () => {
     const file = e.target.files[0];
     if (!file) return;
 
-    const allowedTypes = ["image/jpeg", "image/png", "image/jpg"];
+    const allowedTypes = ["image/jpeg", "image/png", "image/jpg" , "image/webp"];
     if (!allowedTypes.includes(file.type)) {
-      Swal.fire("Error", "Only JPG, JPEG, PNG images allowed", "error");
+      Swal.fire("Error", "Only JPG, JPEG, PNG ,WEBP images allowed", "error");
       return;
     }
 

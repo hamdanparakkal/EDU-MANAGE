@@ -1,4 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router";
+
+
 import styles from "./Dashboard.module.css";
 import { 
   FaBook, 
@@ -15,13 +19,107 @@ import dayjs from "dayjs";
 
 const Dashboard = () => {
   const [currentDate, setCurrentDate] = useState(dayjs());
+  const [studentName, setStudentName] = useState("Student");
+  const navigate = useNavigate();
+
+  const [studentData, setStudentData] = useState({
+    enrolledCourses: 0,
+    assignments: 0,
+    pendingTasks: 0,
+    attendance: "0%",
+    activities: [],
+    deadlines: []
+  });
+
+  useEffect(() => {
+    fetchStudentDashboard();
+  }, []);
+
+  const fetchStudentDashboard = async () => {
+    try {
+      const sid = sessionStorage.getItem("sid");
+      if (!sid) return;
+
+      const [resStudent, resSubjects, resNotes, resAttendance, resMarks, resInfo] = await Promise.all([
+        axios.get(`http://localhost:5000/student/${sid}`),
+        axios.get(`http://localhost:5000/subjects-by-student/${sid}`),
+        axios.get("http://localhost:5000/notes"),
+        axios.get(`http://localhost:5000/attendance-by-student/${sid}`),
+        axios.get(`http://localhost:5000/internalmark-by-student/${sid}`),
+        axios.get("http://localhost:5000/info")
+      ]);
+
+      const profile = resStudent.data.data;
+      if (profile) setStudentName(profile.studentName);
+
+      // Fetch leave bonus
+      let bonus = 0;
+      if (profile?.semId) {
+        try {
+          const resBonus = await axios.get(`http://localhost:5000/leave/bonus/${sid}/${profile.semId}`);
+          bonus = resBonus.data.bonus || 0;
+        } catch (e) {
+          console.error("Bonus fetch error", e);
+        }
+      } else {
+        // Fallback: try to get semId from attendance if profile.semId is missing
+        const firstAtt = resAttendance.data.data?.[0];
+        if (firstAtt?.semId?._id) {
+          try {
+            const resBonus = await axios.get(`http://localhost:5000/leave/bonus/${sid}/${firstAtt.semId._id}`);
+            bonus = resBonus.data.bonus || 0;
+          } catch (e) { console.error(e); }
+        }
+      }
+
+
+      // Already filtered by backend
+      const mySubjects = resSubjects.data.data || [];
+      const myAttendance = resAttendance.data.data || [];
+      const myMarks = resMarks.data.data || [];
+      
+      // Filter notes by student's subjects
+      const myNotes = (resNotes.data.data || []).filter(n => mySubjects.some(sub => sub._id === n.subjectId));
+
+
+      // Calculate attendance %
+      const totalDays = myAttendance.length;
+      const presentDays = myAttendance.filter(a => a.attendanceType === "Present").length;
+      let rawPct = totalDays > 0 ? (presentDays / totalDays) * 100 : 0;
+      let attendancePct = Math.min(100, Math.round(rawPct + bonus));
+
+
+      setStudentData({
+        enrolledCourses: mySubjects.length,
+        assignments: myNotes.length,
+        pendingTasks: mySubjects.length - myMarks.length,
+        attendance: `${attendancePct}%`,
+        activities: myMarks.slice(0, 3).map(m => ({
+          text: `Mark added: ${m.subjectId?.subjectName || "Subject"}`,
+          sub: `Score: ${m.internalmarkMark}/${m.internalmarkFull}`,
+          time: "Recent",
+          color: "#4facfe"
+        })),
+        deadlines: (resInfo.data.data || []).slice(0, 3).map(i => ({
+          day: i.infoDate.split("-")[0] || "10",
+          month: "Sep",
+          title: i.infoDetails.substring(0, 20),
+          sub: "Announcement"
+        }))
+      });
+    } catch (err) {
+      console.error("Error fetching student dashboard:", err);
+    }
+  };
+
 
   const stats = [
-    { label: "Enrolled Courses", value: "5", icon: FaBook, color: "#ff8c00" },
-    { label: "Assignments", value: "12", icon: FaFileLines, color: "#4facfe" },
-    { label: "Pending Tasks", value: "3", icon: FaClock, color: "#f093fb" },
-    { label: "Attendance", value: "92%", icon: FaCalendarCheck, color: "#43e97b" },
+    { label: "Enrolled Courses", value: studentData.enrolledCourses, icon: FaBook, color: "#ff8c00" },
+    { label: "Assignments", value: studentData.assignments, icon: FaFileLines, color: "#4facfe" },
+    { label: "Pending Tasks", value: studentData.pendingTasks, icon: FaClock, color: "#f093fb" },
+    { label: "Attendance", value: studentData.attendance, icon: FaCalendarCheck, color: "#43e97b" },
   ];
+
 
   const generateCalendarDays = () => {
     const startOfMonth = currentDate.startOf("month");
@@ -46,7 +144,8 @@ const Dashboard = () => {
     <div className={styles.dashboard}>
       <header className={styles.header}>
         <div className={styles.welcome}>
-          <h1>Welcome back, <span className={styles.username}>Student</span> 👋</h1>
+          <h1>Welcome back, <span className={styles.username}>{studentName}</span> 👋</h1>
+
           <p>Your academic journey is looking great today!</p>
         </div>
         <div className={styles.headerActions}>
@@ -83,28 +182,18 @@ const Dashboard = () => {
                 <button className={styles.viewAll}>View All</button>
               </div>
               <div className={styles.activities}>
-                <div className={styles.activityItem}>
-                  <div className={styles.activityDot} style={{ background: "#ff8c00" }}></div>
-                  <div className={styles.activityContent}>
-                    <p>New course added: <strong>Data Structures</strong></p>
-                    <span>2 hours ago</span>
+                {studentData.activities.map((act, idx) => (
+                  <div key={idx} className={styles.activityItem}>
+                    <div className={styles.activityDot} style={{ background: act.color }}></div>
+                    <div className={styles.activityContent}>
+                      <p>{act.text} <strong>{act.sub}</strong></p>
+                      <span>{act.time}</span>
+                    </div>
                   </div>
-                </div>
-                <div className={styles.activityItem}>
-                  <div className={styles.activityDot} style={{ background: "#4facfe" }}></div>
-                  <div className={styles.activityContent}>
-                    <p>Assignment submitted: <strong>Web Programming</strong></p>
-                    <span>5 hours ago</span>
-                  </div>
-                </div>
-                <div className={styles.activityItem}>
-                  <div className={styles.activityDot} style={{ background: "#43e97b" }}></div>
-                  <div className={styles.activityContent}>
-                    <p>Announcement: <strong>Semester exams schedule</strong></p>
-                    <span>Yesterday</span>
-                  </div>
-                </div>
+                ))}
+                {studentData.activities.length === 0 && <p className={styles.noData}>No recent activity</p>}
               </div>
+
             </div>
 
             <div className={styles.deadlines}>
@@ -112,28 +201,18 @@ const Dashboard = () => {
                 <h2><FaCircleCheck className={styles.headerIcon} /> Upcoming Deadlines</h2>
               </div>
               <div className={styles.deadlineList}>
-                <div className={styles.deadlineItem}>
-                  <div className={styles.deadlineDate}>20<span>Sep</span></div>
-                  <div className={styles.deadlineInfo}>
-                    <h4>Web Programming</h4>
-                    <p>Project Submission</p>
+                {studentData.deadlines.map((dl, idx) => (
+                  <div key={idx} className={styles.deadlineItem}>
+                    <div className={styles.deadlineDate}>{dl.day}<span>{dl.month}</span></div>
+                    <div className={styles.deadlineInfo}>
+                      <h4>{dl.title}</h4>
+                      <p>{dl.sub}</p>
+                    </div>
                   </div>
-                </div>
-                <div className={styles.deadlineItem}>
-                  <div className={styles.deadlineDate}>22<span>Sep</span></div>
-                  <div className={styles.deadlineInfo}>
-                    <h4>Database Systems</h4>
-                    <p>Quiz #3</p>
-                  </div>
-                </div>
-                <div className={styles.deadlineItem}>
-                  <div className={styles.deadlineDate}>25<span>Sep</span></div>
-                  <div className={styles.deadlineInfo}>
-                    <h4>Java Lab</h4>
-                    <p>Lab Record</p>
-                  </div>
-                </div>
+                ))}
+                {studentData.deadlines.length === 0 && <p className={styles.noData}>No upcoming deadlines</p>}
               </div>
+
             </div>
           </div>
         </div>
@@ -171,11 +250,12 @@ const Dashboard = () => {
           <div className={styles.quickActions}>
             <h3>Quick Actions</h3>
             <div className={styles.actionGrid}>
-              <button>View Attendance</button>
-              <button>Check Marks</button>
-              <button>Download Notes</button>
+              <button onClick={() => navigate("/student/viewattendance")}>View Attendance</button>
+              <button onClick={() => navigate("/student/viewinternalmark")}>Check Marks</button>
+              <button onClick={() => navigate("/student/viewnotes")}>Download Notes</button>
             </div>
           </div>
+
         </div>
       </div>
     </div>

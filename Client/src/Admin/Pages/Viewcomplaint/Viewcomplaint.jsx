@@ -60,11 +60,12 @@ const Viewcomplaint = () => {
                                 </div>
 
                                 <div
-                                    className={`${styles.statusBadge} ${c.complaintReply && c.complaintReply.trim() !== "" ? styles.resolved : styles.pending
+                                    className={`${styles.statusBadge} ${c.complaintReply && c.complaintReply.trim() !== "" && c.complaintReply !== "Pending" ? styles.resolved : styles.pending
                                         }`}
                                 >
-                                    {c.complaintReply && c.complaintReply.trim() !== "" ? "Resolved" : "Pending"}
+                                    {c.complaintReply && c.complaintReply.trim() !== "" && c.complaintReply !== "Pending" ? "Resolved" : "Pending"}
                                 </div>
+
                             </div>
 
                             <div className={styles.complaintBody}>

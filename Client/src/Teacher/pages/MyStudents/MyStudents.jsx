@@ -57,7 +57,8 @@ const MyStudents = () => {
     const doc = new jsPDF();
     doc.text("My Students Report", 14, 15);
     autoTable(doc, {
-      startY: 22, head: [["#", "Name", "Roll No", "Class", "Year", "Semester"]],
+      startY: 22,
+      head: [["#", "Name", "Roll No", "Class", "Year", "Semester"]],
       body: students.map((s, i) => [i + 1, s.studentName, s.studentRollno, s.className, s.yearName, s.semName])
     });
     doc.save("My_Students_Report.pdf");
@@ -103,38 +104,47 @@ const MyStudents = () => {
         </div>
       ) : (
         <div className={styles.grid}>
-          {students.map((s, i) => (
-            <div key={s.studentId} className={styles.card} style={{ animationDelay: `${i * 0.05}s` }}>
-              <div className={styles.photoWrap}>
-                {s.studentPhoto ? (
-                  <img
-                    src={`http://localhost:5000${s.studentPhoto}`}
-                    alt={s.studentName}
-                    className={styles.photo}
-                    onError={(e) => {
-                      e.target.onerror = null;
-                      e.target.src = "https://ui-avatars.com/api/?name=" + s.studentName + "&background=6366f1&color=fff&size=128";
-                    }}
-                  />
-                ) : (
-                  <div className={styles.photoPlaceholder}>
-                    <i className="fa-solid fa-user-tie" style={{ fontSize: 40 }}></i>
-                  </div>
-                )}
+          {[...students]
+            .sort((a, b) =>
+              a.studentName.toLowerCase().localeCompare(b.studentName.toLowerCase())
+            )
+            .map((s, i) => (
+              <div key={s.studentId} className={styles.card} style={{ animationDelay: `${i * 0.05}s` }}>
+                <div className={styles.photoWrap}>
+                  {s.studentPhoto ? (
+                    <img
+                      src={`http://localhost:5000${s.studentPhoto}`}
+                      alt={s.studentName}
+                      className={styles.photo}
+                      onError={(e) => {
+                        e.target.onerror = null;
+                        e.target.src = "https://ui-avatars.com/api/?name=" + s.studentName + "&background=6366f1&color=fff&size=128";
+                      }}
+                    />
+                  ) : (
+                    <div className={styles.photoPlaceholder}>
+                      <i className="fa-solid fa-user-tie" style={{ fontSize: 40 }}></i>
+                    </div>
+                  )}
+                </div>
+
+                <div className={styles.info}>
+                  <h4>{s.studentName}</h4>
+                  <p>Roll No: {s.studentRollno}</p>
+                  <p>{s.className} • {s.yearName}</p>
+                  <div className={styles.chip}>Semester {s.semName}</div>
+                </div>
+
+                <div className={styles.cardActions}>
+                  <button className={styles.viewBtn} onClick={() => navigate(`/teacher/teacherviewattendance/${s.studentId}`)}>
+                    View Attendance <i className="fa-solid fa-arrow-right" style={{ marginLeft: 6 }}></i>
+                  </button>
+                  <button className={styles.viewBtn} onClick={() => navigate(`/teacher/teacherviewmarks/${s.studentId}`)}>
+                    View Marks <i className="fa-solid fa-chart-simple" style={{ marginLeft: 6 }}></i>
+                  </button>
+                </div>
               </div>
-              <div className={styles.info}>
-                <h4>{s.studentName}</h4>
-                <p>Roll No: {s.studentRollno}</p>
-                <p>{s.className} • {s.yearName}</p>
-                <div className={styles.chip}>Semester {s.semName}</div>
-              </div>
-              <div className={styles.cardActions}>
-                <button className={styles.viewBtn} onClick={() => navigate(`/teacher/teacherviewattendance/${s.studentId}`)}>
-                  View Attendance <i className="fa-solid fa-arrow-right" style={{ marginLeft: 6 }}></i>
-                </button>
-              </div>
-            </div>
-          ))}
+            ))}
         </div>
       )}
     </div>

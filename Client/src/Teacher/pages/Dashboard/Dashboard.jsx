@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import styles from "./Dashboard.module.css";
 import axios from "axios";
+import { useNavigate } from "react-router";
+
 import {
   Bar
 } from "react-chartjs-2";
@@ -106,25 +108,123 @@ const Dashboard = () => {
   const [greeting, setGreeting] = useState("");
   const [currentTime, setCurrentTime] = useState(new Date());
   const [teacherName, setTeacherName] = useState("");
+  const navigate = useNavigate();
+
+
+  const [teacherData, setTeacherData] = useState({
+    totalStudents: 0,
+    activeClasses: 0,
+    assignments: 0,
+    avgScore: 0,
+    attendanceStats: { present: [], absent: [] },
+    todayClasses: [],
+    topStudents: [],
+    notifications: []
+  });
 
   useEffect(() => {
     const hour = new Date().getHours();
     setGreeting(hour < 12 ? "Good Morning" : hour < 17 ? "Good Afternoon" : "Good Evening");
     const timer = setInterval(() => setCurrentTime(new Date()), 60000);
-    fetchTeacherDetails();
+    fetchDashboardData();
     return () => clearInterval(timer);
   }, []);
 
-  const fetchTeacherDetails = async () => {
+  const fetchDashboardData = async () => {
     try {
-      const id = sessionStorage.getItem("tid");
-      if (!id) return;
-      const res = await axios.get(`http://localhost:5000/teacher/${id}`);
-      if (res.data?.data) setTeacherName(res.data.data.teacherName);
+      const tid = sessionStorage.getItem("tid");
+      if (!tid) return;
+
+      // Individual request handling with failover support
+      const fetchSet = await Promise.all([
+        axios.get(`http://localhost:5000/teacher/${tid}`).catch(() => ({ data: { data: null } })),
+        axios.get(`http://localhost:5000/teacher/students/${tid}`).catch(() => ({ data: { data: [] } })),
+        axios.get("http://localhost:5000/student").catch(() => ({ data: { data: [] } })), // Fallback students
+        axios.get("http://localhost:5000/class").catch(() => ({ data: { data: [] } })),
+        axios.get("http://localhost:5000/notes").catch(() => ({ data: { data: [] } })),
+        axios.get("http://localhost:5000/internalmark").catch(() => ({ data: { data: [] } }))
+      ]);
+
+      const [resTeacher, resTeacherStudents, resAllStudents, resClasses, resNotes, resMarks] = fetchSet;
+
+      const teacherProfile = resTeacher.data.data;
+      if (teacherProfile) setTeacherName(teacherProfile.teacherName);
+
+
+      // Filter data by teacher ID
+      let myStudents = resTeacherStudents.data.data || [];
+      const lid = tid.toLowerCase();
+
+      // Manual fallback if specialized endpoint returns nothing
+      if (myStudents.length === 0) {
+        myStudents = (resAllStudents.data.data || []).filter(s => 
+          (s.teacherId && String(s.teacherId).toLowerCase() === lid) ||
+          (s.teacher_id && String(s.teacher_id).toLowerCase() === lid)
+        );
+      }
+      
+      const myClasses = (resClasses.data.data || []).filter(c => 
+        (c.teacherId && String(c.teacherId).toLowerCase() === lid) || 
+        (c.teacherId?._id && String(c.teacherId._id).toLowerCase() === lid)
+      );
+      const myNotes = (resNotes.data.data || []).filter(n => 
+        (n.teacherId && String(n.teacherId).toLowerCase() === lid) || 
+        (n.teacherId?._id && String(n.teacherId._id).toLowerCase() === lid)
+      );
+
+      // Calculate avg score for the teacher's students
+      const myStudentIds = myStudents.map(s => String(s.studentId || s._id).toLowerCase());
+      const relevantMarks = (resMarks.data.data || []).filter(m => {
+        const mid = String(m.studentId || m.studentId?._id || "").toLowerCase();
+        return myStudentIds.includes(mid);
+      });
+
+      const avg = relevantMarks.length > 0
+        ? Math.round(relevantMarks.reduce((sum, m) => sum + parseInt(m.internalmarkMark || 0), 0) / relevantMarks.length)
+        : 0;
+
+      // Debugging Logs (Visible in browser console)
+      console.table({ tid, myStudentsCount: myStudents.length, myClassesCount: myClasses.length, myNotesCount: myNotes.length });
+
+
+
+      // Top Students
+      const top = [...relevantMarks]
+        .sort((a, b) => b.internalmarkMark - a.internalmarkMark)
+        .slice(0, 3)
+        .map(m => {
+          const student = myStudents.find(s => s.studentId === m.studentId);
+          return {
+            name: student?.studentName || "Unknown",
+            score: m.internalmarkMark,
+            subject: m.subjectId?.subjectName || "Subject",
+            avatar: student?.studentName?.charAt(0) || "S"
+          };
+        });
+
+      setTeacherData({
+        totalStudents: myStudents.length,
+        activeClasses: myClasses.length,
+        assignments: myNotes.length,
+        avgScore: avg,
+        todayClasses: myClasses.slice(0, 4).map(c => ({
+          time: "09:00 AM", // Placeholder since class schema doesn't have time
+          subject: c.className,
+          batch: c.courseId?.courseName || "Batch",
+          room: "Room 101",
+          status: "upcoming"
+        })),
+        topStudents: top,
+        attendanceStats: {
+          present: [38, 42, 35, 45, 40, 28], // Placeholder chart data
+          absent: [7, 3, 10, 5, 8, 12]
+        }
+      });
     } catch (err) {
-      console.error(err);
+      console.error("Error fetching teacher dashboard data:", err);
     }
   };
+
 
   const timeStr = currentTime.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" });
   const dateStr = currentTime.toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" });
@@ -188,26 +288,20 @@ const Dashboard = () => {
 
   /* ─── Stat Cards ─── */
   const stats = [
-    { title: "Total Students", value: "120", icon: <Users size={20} />, color: "#6366f1", bg: "rgba(99,102,241,0.1)", sub: "+8 this week" },
-    { title: "Active Classes", value: "4", icon: <BookOpen size={20} />, color: "#10b981", bg: "rgba(16,185,129,0.1)", sub: "This semester" },
-    { title: "Assignments", value: "18", icon: <ClipboardList size={20} />, color: "#f59e0b", bg: "rgba(245,158,11,0.1)", sub: "3 due soon" },
-    { title: "Avg. Score", value: "78%", icon: <TrendingUp size={20} />, color: "#f43f5e", bg: "rgba(244,63,94,0.1)", sub: "+4% vs last month" },
+    { title: "Total Students", value: teacherData.totalStudents, icon: <Users size={20} />, color: "#6366f1", bg: "rgba(99,102,241,0.1)", sub: "+8 this week" },
+    { title: "Active Classes", value: teacherData.activeClasses, icon: <BookOpen size={20} />, color: "#10b981", bg: "rgba(16,185,129,0.1)", sub: "This semester" },
+    { title: "Assignments", value: teacherData.assignments, icon: <ClipboardList size={20} />, color: "#f59e0b", bg: "rgba(245,158,11,0.1)", sub: "3 due soon" },
+    { title: "Avg. Score", value: `${teacherData.avgScore}%`, icon: <TrendingUp size={20} />, color: "#f43f5e", bg: "rgba(244,63,94,0.1)", sub: "+4% vs last month" },
   ];
+
 
   /* ─── Today's Classes ─── */
-  const todayClasses = [
-    { time: "09:00 AM", subject: "Web Programming", batch: "BCA Sem 4", room: "Lab 2", status: "upcoming" },
-    { time: "11:00 AM", subject: "Data Structures", batch: "BCA Sem 2", room: "Room 104", status: "ongoing" },
-    { time: "02:00 PM", subject: "Database Systems", batch: "MCA Sem 2", room: "Room 201", status: "upcoming" },
-    { time: "04:00 PM", subject: "AI & Machine Learning", batch: "MCA Sem 4", room: "Lab 1", status: "upcoming" },
-  ];
+  const todayClasses = teacherData.todayClasses;
+
 
   /* ─── Top Students ─── */
-  const topStudents = [
-    { name: "Aisha Khan", score: 96, subject: "Web Programming", avatar: "AK" },
-    { name: "Rajan Mehta", score: 91, subject: "Data Structures", avatar: "RM" },
-    { name: "Priya Dev", score: 88, subject: "Database Systems", avatar: "PD" },
-  ];
+  const topStudents = teacherData.topStudents;
+
 
   /* ─── Notifications ─── */
   const notifs = [
@@ -370,18 +464,24 @@ const Dashboard = () => {
             <p className={styles.quickTitle}>Quick Access</p>
             <div className={styles.quickGrid}>
               {[
-                { icon: <ClipboardList size={16} />, label: "Attendance", color: "#6366f1" },
-                { icon: <BookOpen size={16} />, label: "Grades", color: "#10b981" },
-                { icon: <MessageSquare size={16} />, label: "Messages", color: "#f59e0b" },
-                { icon: <TrendingUp size={16} />, label: "Reports", color: "#f43f5e" },
+                { icon: <ClipboardList size={16} />, label: "Attendance", color: "#6366f1", path: "/teacher/attendance" },
+                { icon: <BookOpen size={16} />, label: "Grades", color: "#10b981", path: "/teacher/internalmark" },
+                { icon: <MessageSquare size={16} />, label: "Messages", color: "#f59e0b", path: "/teacher/TeacherChatList" },
+                { icon: <TrendingUp size={16} />, label: "Reports", color: "#f43f5e", path: "/teacher/mystudents" },
               ].map((q, i) => (
-                <div key={i} className={styles.quickItem} style={{ "--qc": q.color }}>
+                <div
+                  key={i}
+                  className={styles.quickItem}
+                  style={{ "--qc": q.color, cursor: "pointer" }}
+                  onClick={() => navigate(q.path)}
+                >
                   <div className={styles.quickIcon} style={{ background: `${q.color}15`, color: q.color }}>
                     {q.icon}
                   </div>
                   <span className={styles.quickLabel}>{q.label}</span>
                 </div>
               ))}
+
             </div>
           </div>
         </div>

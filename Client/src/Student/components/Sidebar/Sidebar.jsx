@@ -35,7 +35,7 @@ const Sidebar = ({ isOpen, onClose }) => {
     { path: "/student/viewattendance", label: "Attendance", icon: FaClipboardCheck },
     { path: "/student/Viewinternalmark", label: "Performance", icon: FaCheckDouble },
     { path: "/student/studentchat", label: "Messages", icon: FaMessage },
-    { path: "/student/complaint", label: "Support", icon: FaTriangleExclamation },
+    { path: "/student/complaint", label: "Complaint", icon: FaTriangleExclamation },
     { path: "/student/studentFeedback", label: "Feedback", icon: FaFaceSmile },
   ];
 

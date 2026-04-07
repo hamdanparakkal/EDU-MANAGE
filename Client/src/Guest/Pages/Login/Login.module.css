@@ -7,21 +7,33 @@
     align-items: center;
     padding: 100px 20px 60px;
     background: transparent;
-    /* Show global animated background */
-    overflow: visible;
+    overflow: hidden;
     z-index: 5;
 }
 
-.page::before {
-    content: '';
+.blurBlob {
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: url('https://www.transparenttextures.com/patterns/carbon-fibre.png');
-    opacity: 0.05;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(0, 198, 255, 0.1) 0%, transparent 70%);
+    filter: blur(100px);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 0;
     pointer-events: none;
+    animation: pulseBlob 10s ease-in-out infinite alternate;
+}
+
+@keyframes pulseBlob {
+    from { transform: translate(-50%, -50%) scale(1); opacity: 0.3; }
+    to { transform: translate(-50%, -50%) scale(1.2); opacity: 0.6; }
+}
+
+.card {
+    position: relative;
+    z-index: 5;
+    /* ... rest of card style ... */
 }
 
 /* LOGIN CARD */

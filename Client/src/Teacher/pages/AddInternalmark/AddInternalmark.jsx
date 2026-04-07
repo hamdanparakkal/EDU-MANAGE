@@ -11,6 +11,7 @@ const AddInternalmark = () => {
   const [subjectId, setSubjectId] = useState("");
   const [internalmarkMark, setMark] = useState("");
   const [subjects, setSubjects] = useState([]);
+  const [existingMarks, setExistingMarks] = useState([]);
   const [loading, setLoading] = useState(false);
 
   const internalmarkFull = "20";
@@ -18,19 +19,48 @@ const AddInternalmark = () => {
   useEffect(() => {
     if (!studentId) return;
     setLoading(true);
-    axios.get(`http://localhost:5000/subjects-by-student/${studentId}`)
-      .then((res) => { setSubjects(res.data.data || []); setLoading(false); })
-      .catch((err) => { console.error(err); setLoading(false); });
+    // Fetch subjects by student
+    const fetchSubjects = axios.get(`http://localhost:5000/subjects-by-student/${studentId}`);
+    // Fetch already added internal marks
+    const fetchExisting = axios.get(`http://localhost:5000/internalmark-by-student/${studentId}`);
+
+    Promise.all([fetchSubjects, fetchExisting])
+      .then(([subRes, extRes]) => {
+        setSubjects(subRes.data.data || []);
+        const alreadyAdded = (extRes.data.data || []).map(m => m.subjectId?._id);
+        setExistingMarks(alreadyAdded);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error(err);
+        setLoading(false);
+      });
   }, [studentId]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!subjectId || !internalmarkMark) { alert("Select subject and mark"); return; }
+    if (!subjectId || !internalmarkMark) {
+      alert("Select subject and mark");
+      return;
+    }
+    if (existingMarks.includes(subjectId)) {
+      alert("Internal mark already added for this subject.");
+      return;
+    }
     try {
-      await axios.post("http://localhost:5000/internalmark", { internalmarkMark, internalmarkFull, studentId, subjectId });
+      await axios.post("http://localhost:5000/internalmark", {
+        internalmarkMark,
+        internalmarkFull,
+        studentId,
+        subjectId,
+      });
       alert("Internal mark saved successfully");
-      setMark(""); setSubjectId("");
-    } catch { alert("Error saving internal mark"); }
+      setExistingMarks([...existingMarks, subjectId]);
+      setMark("");
+      setSubjectId("");
+    } catch {
+      alert("Error saving internal mark");
+    }
   };
 
   return (
@@ -50,7 +80,14 @@ const AddInternalmark = () => {
             <label><BookOpen size={12} /> Academic Subject</label>
             <select className={styles.select} value={subjectId} onChange={(e) => setSubjectId(e.target.value)} required disabled={loading}>
               <option value="">{loading ? "Loading subjects..." : "Select Subject"}</option>
-              {subjects.map((s) => <option key={s._id} value={s._id}>{s.subjectName}</option>)}
+              {subjects.map((s) => {
+                const isAdded = existingMarks.includes(s._id);
+                return (
+                  <option key={s._id} value={s._id} disabled={isAdded}>
+                    {s.subjectName} {isAdded ? " (Already Added)" : ""}
+                  </option>
+                );
+              })}
             </select>
           </div>
 

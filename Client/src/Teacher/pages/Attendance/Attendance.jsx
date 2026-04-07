@@ -48,41 +48,47 @@ const Attendance = () => {
         </div>
       ) : (
         <div className={styles.grid}>
-          {students.map((s, i) => (
-            <div key={s.studentId} className={styles.card} style={{ animationDelay: `${i * 0.05}s` }}>
-              <div className={styles.photoWrap}>
-                {s.studentPhoto ? (
-                  <img
-                    src={`http://localhost:5000${s.studentPhoto}`}
-                    alt={s.studentName}
-                    className={styles.photo}
-                    onError={(e) => {
-                      e.target.onerror = null;
-                      e.target.src = "https://ui-avatars.com/api/?name=" + s.studentName + "&background=6366f1&color=fff&size=128";
-                    }}
-                  />
-                ) : (
-                  <div className={styles.photoPlaceholder}>
-                    <i className="fa-solid fa-user-tie" style={{ fontSize: 40 }}></i>
-                  </div>
-                )}
+          {[...students]
+            .sort((a, b) =>
+              a.studentName.toLowerCase().localeCompare(b.studentName.toLowerCase())
+            )
+            .map((s, i) => (
+              <div key={s.studentId} className={styles.card} style={{ animationDelay: `${i * 0.05}s` }}>
+                <div className={styles.photoWrap}>
+                  {s.studentPhoto ? (
+                    <img
+                      src={`http://localhost:5000${s.studentPhoto}`}
+                      alt={s.studentName}
+                      className={styles.photo}
+                      onError={(e) => {
+                        e.target.onerror = null;
+                        e.target.src = "https://ui-avatars.com/api/?name=" + s.studentName + "&background=6366f1&color=fff&size=128";
+                      }}
+                    />
+                  ) : (
+                    <div className={styles.photoPlaceholder}>
+                      <i className="fa-solid fa-user-tie" style={{ fontSize: 40 }}></i>
+                    </div>
+                  )}
+                </div>
+
+                <div className={styles.info}>
+                  <h4>{s.studentName}</h4>
+                  <p>Roll No: {s.studentRollno}</p>
+                  <p>{s.className} • {s.yearName}</p>
+                  <div className={styles.chip}>Active Student</div>
+                </div>
+
+                <div className={styles.cardActions}>
+                  <button className={styles.addBtn} onClick={() => handleAddAttendance(s)}>
+                    <i className="fa-solid fa-user-check" style={{ marginRight: 8 }}></i> Mark Attendance
+                  </button>
+                  <button className={styles.leaveBtn} onClick={() => navigate(`/teacher/viewmedical/${s.studentId}/${s.semId}`)}>
+                    <i className="fa-solid fa-hospital-user" style={{ marginRight: 8 }}></i> Medical Records
+                  </button>
+                </div>
               </div>
-              <div className={styles.info}>
-                <h4>{s.studentName}</h4>
-                <p>Roll No: {s.studentRollno}</p>
-                <p>{s.className} • {s.yearName}</p>
-                <div className={styles.chip}>Active Student</div>
-              </div>
-              <div className={styles.cardActions}>
-                <button className={styles.addBtn} onClick={() => handleAddAttendance(s)}>
-                  <i className="fa-solid fa-user-check" style={{ marginRight: 8 }}></i> Mark Attendance
-                </button>
-                <button className={styles.leaveBtn} onClick={() => navigate(`/teacher/viewmedical/${s.studentId}/${s.semId}`)}>
-                  <i className="fa-solid fa-hospital-user" style={{ marginRight: 8 }}></i> Medical Records
-                </button>
-              </div>
-            </div>
-          ))}
+            ))}
         </div>
       )}
     </div>

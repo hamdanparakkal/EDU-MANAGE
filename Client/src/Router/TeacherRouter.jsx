@@ -18,6 +18,7 @@ import TeacherChatPage from "../Teacher/pages/TeacherChatPage/TeacherChatPage";
 import TeacherChatList from "../Teacher/pages/TeacherChatList/TeacherChatList";
 import ViewMedical from "../Teacher/pages/ViewMedical/ViewMedical";
 import TeacherInfo from "../Teacher/pages/TeacherInfo/TeacherInfo";
+import TeacherViewMarks from "../Teacher/pages/TeacherViewMarks/TeacherViewMarks";
 
 
 const TeacherRouter = () => {
@@ -39,6 +40,7 @@ const TeacherRouter = () => {
       <Route path="/TeacherChatPage/:id" element={<TeacherChatPage />} />
       <Route path="/TeacherChatList" element={<TeacherChatList />} />
       <Route path="/teacherviewattendance/:id" element={<TeacherViewAttendance />} />
+      <Route path="/teacherviewmarks/:id" element={<TeacherViewMarks />} />
       <Route path="/viewmedical/:studentId/:semId" element={<ViewMedical />} />
       <Route path="/info" element={<TeacherInfo />} />
 
