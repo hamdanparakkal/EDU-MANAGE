@@ -383,6 +383,7 @@ app.get("/admin", async (req, res) => {
 
 
 app.get("/admin/complaint", async (req, res) => {
+
     try {
         const complaint = await Complaint.find()
             .populate({
@@ -552,13 +553,34 @@ app.delete("/admin/:id", async (req, res) => {
 app.post("/teacher", upload.single("photo"), async (req, res) => {
     try {
         const { teacherName, teacherEmail, teacherContact, teacherDob, teacherPassword } = req.body;
+
+        // 1. Cross-Schema Email Uniqueness Check
+        const emailLower = teacherEmail.trim().toLowerCase();
+        const [existingAdmin, existingTeacher, existingStudent] = await Promise.all([
+            Admin.findOne({ adminEmail: emailLower }),
+            Teacher.findOne({ teacherEmail: emailLower }),
+            Student.findOne({ studentEmail: emailLower })
+        ]);
+
+        if (existingAdmin || existingTeacher || existingStudent) {
+            return res.status(400).json({ error: "Email is already registered in the system (Admin, Teacher, or Student)." });
+        }
+
         const teacherPhoto = req.file ? `/uploads/${req.file.filename}` : "";
-        await Teacher.create({ teacherName, teacherEmail, teacherContact, teacherDob, teacherPassword, teacherPhoto });
+        await Teacher.create({ 
+            teacherName, 
+            teacherEmail: emailLower, 
+            teacherContact, 
+            teacherDob, 
+            teacherPassword, 
+            teacherPhoto 
+        });
         res.json({ message: "Teacher added successfully" });
     } catch (err) {
         res.status(500).json({ error: err.message });
     }
 });
+
 
 app.get("/teacher", async (req, res) => {
     try {
@@ -764,13 +786,25 @@ app.post("/student", upload.single("photo"), async (req, res) => {
             studentPassword
         } = req.body;
 
+        // 1. Cross-Schema Email Uniqueness Check
+        const emailLower = studentEmail.trim().toLowerCase();
+        const [existingAdmin, existingTeacher, existingStudent] = await Promise.all([
+            Admin.findOne({ adminEmail: emailLower }),
+            Teacher.findOne({ teacherEmail: emailLower }),
+            Student.findOne({ studentEmail: emailLower })
+        ]);
+
+        if (existingAdmin || existingTeacher || existingStudent) {
+            return res.status(400).json({ error: "Email is already registered in the system (Admin, Teacher, or Student)." });
+        }
+
         const studentPhoto = req.file
             ? `/uploads/${req.file.filename}`
             : "";
 
         const newStudent = {
             studentName,
-            studentEmail,
+            studentEmail: emailLower,
             studentAddress,
             studentRollno,
             studentDob,
@@ -779,16 +813,12 @@ app.post("/student", upload.single("photo"), async (req, res) => {
             studentPhoto
         };
 
-
         if (classId) newStudent.classId = classId;
         if (yearId) newStudent.yearId = yearId;
         if (semId) newStudent.semId = semId;
         if (teacherId) newStudent.teacherId = teacherId;
 
-        console.log("DATA SENT TO DB:", newStudent);
-
         await Student.create(newStudent);
-
         res.json({ message: "student added successfully" });
 
     } catch (err) {
@@ -798,49 +828,76 @@ app.post("/student", upload.single("photo"), async (req, res) => {
 });
 
 
+
 app.post("/students/bulk", upload.single("file"), async (req, res) => {
-
     try {
-
         const { teacherId, classId, yearId, semId } = req.body;
-
         const workbook = XLSX.readFile(req.file.path);
-
         const sheet = workbook.Sheets[workbook.SheetNames[0]];
-
         const students = XLSX.utils.sheet_to_json(sheet);
 
-        const formattedStudents = students.map(s => ({
+        // 1. Extract and Validate internal duplicates
+        const emails = students.map(s => s.studentEmail?.trim().toLowerCase());
+        const uniqueEmails = new Set(emails);
 
+        if (uniqueEmails.size !== emails.length) {
+            // Find which emails are duplicates within the file
+            const internalDuplicates = emails.filter((item, index) => emails.indexOf(item) !== index);
+            // Clean up uploaded file
+            if (req.file) fs.unlinkSync(req.file.path);
+            return res.status(400).json({ error: `The Excel file contains duplicate emails: ${[...new Set(internalDuplicates)].join(", ")}` });
+        }
+
+        // 2. Cross-Schema Email Uniqueness Check
+        const [existingAdmins, existingTeachers, existingStudents] = await Promise.all([
+            Admin.find({ adminEmail: { $in: emails } }),
+            Teacher.find({ teacherEmail: { $in: emails } }),
+            Student.find({ studentEmail: { $in: emails } })
+        ]);
+
+        const allExistingEmails = [
+            ...existingAdmins.map(a => a.adminEmail),
+            ...existingTeachers.map(t => t.teacherEmail),
+            ...existingStudents.map(s => s.studentEmail)
+        ];
+
+        if (allExistingEmails.length > 0) {
+            // Clean up uploaded file
+            if (req.file) fs.unlinkSync(req.file.path);
+            return res.status(400).json({ error: `The following emails are already registered: ${allExistingEmails.join(", ")}` });
+        }
+
+        // 3. Process and Insert
+        const formattedStudents = students.map(s => ({
             studentName: s.studentName,
-            studentEmail: s.studentEmail,
+            studentEmail: s.studentEmail.trim().toLowerCase(),
             studentAddress: s.studentAddress,
             studentRollno: s.studentRollno,
             studentContact: s.studentContact,
             studentPassword: s.studentPassword,
             studentDob: s.studentDob,
-
             teacherId,
             classId,
             yearId,
             semId,
-
             studentPhoto: "/uploads/default.png"
-
         }));
 
         await Student.insertMany(formattedStudents);
 
-        res.json({ message: "Bulk students added" });
+        // Clean up uploaded file
+        if (req.file) fs.unlinkSync(req.file.path);
+
+        res.json({ message: "Bulk students added successfully" });
 
     } catch (err) {
-
         console.log(err);
+        // Ensure cleanup on error
+        if (req.file) fs.unlinkSync(req.file.path);
         res.status(500).json({ error: err.message });
-
     }
-
 });
+
 
 app.get("/student", async (req, res) => {
     try {
@@ -1314,21 +1371,24 @@ app.post("/course", async (req, res) => {
     try {
         const { courseName, departmentId } = req.body;
 
-        let course = await Course.findOne({ courseName });
+        // ✅ Check BOTH courseName + departmentId
+        let course = await Course.findOne({ 
+            courseName, 
+            departmentId 
+        });
 
         if (course) {
-            return res.json({ message: " already exists" });
+            return res.json({ message: "Already exists in this department" });
         }
 
         course = new Course({
             courseName,
             departmentId
-
         });
 
         await course.save();
 
-        res.json({ message: " inserted successfully" });
+        res.json({ message: "Inserted successfully" });
     } catch (err) {
         console.error(err.message);
         res.status(500).send("Server error");
