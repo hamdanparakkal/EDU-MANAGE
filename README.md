@@ -2,19 +2,37 @@
 
 <br/>
 
-# 🎓 EDU-MANAGE
+<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=28&pause=1000&color=E94560&center=true&vCenter=true&width=500&lines=EDU-MANAGE;Learning+Management+System" alt="EDU-MANAGE" />
 
 ### A Full-Stack Educational Management System
 
 **Streamlining academic workflows for students, instructors, and administrators — all in one platform.**
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
-[![Node.js](https://img.shields.io/badge/Node.js-18.x-green.svg)](https://nodejs.org/)
-[![React](https://img.shields.io/badge/React-18.x-61DAFB.svg)](https://reactjs.org/)
-[![MongoDB](https://img.shields.io/badge/MongoDB-Atlas-47A248.svg)](https://mongodb.com/)
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
+<br/>
 
-[Features](#-features) · [Tech Stack](#%EF%B8%8F-tech-stack) · [Getting Started](#-getting-started) · [Usage](#-usage) · [Roadmap](#%EF%B8%8F-roadmap) · [Contributing](#-contributing)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
+[![Node.js](https://img.shields.io/badge/Node.js-18.x-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)](https://nodejs.org/)
+[![React](https://img.shields.io/badge/React-18.x-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://reactjs.org/)
+[![MongoDB](https://img.shields.io/badge/MongoDB-Atlas-47A248?style=for-the-badge&logo=mongodb&logoColor=white)](https://mongodb.com/)
+[![Express](https://img.shields.io/badge/Express.js-4.x-000000?style=for-the-badge&logo=express&logoColor=white)](https://expressjs.com/)
+
+<br/>
+
+[![PRs Welcome](https://img.shields.io/badge/PRs-Welcome-brightgreen?style=flat-square)](CONTRIBUTING.md)
+[![Contributions Welcome](https://img.shields.io/badge/Contributions-Welcome-orange?style=flat-square)](CONTRIBUTING.md)
+[![Stars](https://img.shields.io/github/stars/hamdanparakkal/EDU-MANAGE?style=flat-square&color=yellow)](https://github.com/hamdanparakkal/EDU-MANAGE/stargazers)
+[![Forks](https://img.shields.io/github/forks/hamdanparakkal/EDU-MANAGE?style=flat-square&color=blue)](https://github.com/hamdanparakkal/EDU-MANAGE/network/members)
+
+<br/>
+
+[📌 Overview](#-overview) &nbsp;·&nbsp;
+[✨ Features](#-features) &nbsp;·&nbsp;
+[🛠️ Tech Stack](#%EF%B8%8F-tech-stack) &nbsp;·&nbsp;
+[📂 Structure](#-project-structure) &nbsp;·&nbsp;
+[🚀 Getting Started](#-getting-started) &nbsp;·&nbsp;
+[▶️ Usage](#%EF%B8%8F-usage) &nbsp;·&nbsp;
+[🛣️ Roadmap](#%EF%B8%8F-roadmap) &nbsp;·&nbsp;
+[🤝 Contributing](#-contributing)
 
 <br/>
 
@@ -24,75 +42,129 @@
 
 ## 📌 Overview
 
-**EDU-MANAGE** is a feature-rich, role-based Learning Management System (LMS) built on the MERN stack. It digitizes and streamlines academic operations — from course creation and enrollment to assignment grading and attendance tracking — within a single cohesive platform.
+**EDU-MANAGE** is a production-ready, role-based Learning Management System (LMS) built on the **MERN stack**. It digitizes and streamlines academic operations — from course creation and enrollment to assignment grading and attendance tracking — within a single cohesive platform.
 
-The system supports three distinct roles, each with a tailored experience:
+The system supports **three distinct roles**, each with a purpose-built experience:
 
-| Role | Description |
-|------|-------------|
-| 👨‍🎓 **Student** | Browse and enroll in courses, submit assignments, track grades and attendance |
-| 👩‍🏫 **Instructor** | Create and manage courses, upload content, evaluate and grade students |
-| 🛠️ **Admin** | Approve users, oversee course catalog, monitor platform activity |
+<br/>
+
+<div align="center">
+
+| Role | Access Level | Core Capabilities |
+|:----:|:------------:|:-----------------|
+| 👨‍🎓 **Student** | Standard | Browse & enroll in courses, submit assignments, track grades & attendance |
+| 👩‍🏫 **Instructor** | Elevated | Create & manage courses, upload content, grade students, mark attendance |
+| 🛠️ **Admin** | Full | Approve users, oversee course catalog, monitor platform activity |
+
+</div>
+
+<br/>
 
 ---
 
 ## ✨ Features
 
-### 🔐 Authentication & Security
-- JWT-based stateless authentication
-- Password hashing with **bcrypt**
-- Role-based access control (RBAC) for Students, Instructors, and Admins
-- Input validation via **Express Validator**
+<details open>
+<summary><b>🔐 Authentication & Security</b></summary>
+<br/>
 
-### 📚 Course Management
-- Create, update, and delete courses with rich metadata
-- Admin-driven course approval workflow
-- Student enrollment and unenrollment management
+- **JWT-based** stateless authentication with token refresh
+- **bcrypt** password hashing with configurable salt rounds
+- **Role-Based Access Control (RBAC)** — Students, Instructors, and Admins each have scoped permissions
+- **Express Validator** for comprehensive server-side input validation
 
-### 📝 Assignments & Evaluation
-- Assignment submission supporting both file uploads and text responses
-- Grading system with instructor feedback
-- Student progress tracking per course
+</details>
 
-### 📊 Attendance & Reporting
-- Attendance marking per session
-- Per-student and per-course attendance analytics
+<details open>
+<summary><b>📚 Course Management</b></summary>
+<br/>
 
-### 💬 Messaging
-- Direct messaging between students and instructors
-- Conversation history and notifications
+- Create, update, and delete courses with rich metadata (title, description, schedule, capacity)
+- **Admin-driven course approval** workflow before courses go live
+- Student enrollment and unenrollment with capacity enforcement
 
-### 📁 File Handling
-- Secure file upload via **Multer**
-- File type and size validation
-- Organized file storage with access control
+</details>
+
+<details open>
+<summary><b>📝 Assignments & Evaluation</b></summary>
+<br/>
+
+- Assignment submissions supporting both **file uploads** and **text responses**
+- Instructor grading interface with inline feedback
+- Student progress tracking dashboard per course
+
+</details>
+
+<details open>
+<summary><b>📊 Attendance & Reporting</b></summary>
+<br/>
+
+- Per-session attendance marking by instructors
+- Student-level and course-level **attendance analytics**
+- Exportable attendance summaries
+
+</details>
+
+<details open>
+<summary><b>💬 Messaging</b></summary>
+<br/>
+
+- **Direct messaging** between students and instructors
+- Persistent conversation history
+- In-app notification indicators
+
+</details>
+
+<details open>
+<summary><b>📁 File Handling</b></summary>
+<br/>
+
+- Secure file upload pipeline via **Multer**
+- File type and size validation on both client and server
+- Organized storage with access control per user role
+
+</details>
+
+<br/>
 
 ---
 
 ## 🛠️ Tech Stack
 
+<div align="center">
+
 <table>
 <tr>
 <td valign="top" width="50%">
 
-**Frontend**
-- ⚛️ React.js 18
-- 🎨 Tailwind CSS
-- 🔗 Axios
-- 🧭 React Router v6
+### 🖥️ Frontend
+
+| Technology | Purpose |
+|------------|---------|
+| ⚛️ React.js 18 | Component-based UI |
+| 🎨 Tailwind CSS | Utility-first styling |
+| 🔗 Axios | HTTP client |
+| 🧭 React Router v6 | Client-side routing |
 
 </td>
 <td valign="top" width="50%">
 
-**Backend**
-- 🟢 Node.js + Express.js
-- 🍃 MongoDB + Mongoose
-- 🔑 JSON Web Tokens (JWT)
-- 📦 Multer, bcrypt, Express Validator
+### ⚙️ Backend
+
+| Technology | Purpose |
+|------------|---------|
+| 🟢 Node.js + Express.js | REST API server |
+| 🍃 MongoDB + Mongoose | Database & ODM |
+| 🔑 JSON Web Tokens | Stateless auth |
+| 📦 Multer / bcrypt | File uploads & hashing |
 
 </td>
 </tr>
 </table>
+
+</div>
+
+<br/>
 
 ---
 
@@ -100,22 +172,25 @@ The system supports three distinct roles, each with a tailored experience:
 
 ```
 edu-manage/
+│
 ├── backend/
-│   ├── models/          # Mongoose schemas (User, Course, Assignment, etc.)
-│   ├── routes/          # Express route handlers by resource
-│   ├── middleware/       # Auth guards, role checks, error handlers
-│   ├── scripts/         # Seed scripts and utilities
-│   └── server.js        # App entry point
+│   ├── models/           # Mongoose schemas (User, Course, Assignment, etc.)
+│   ├── routes/           # Express route handlers by resource
+│   ├── middleware/        # Auth guards, role checks, error handlers
+│   ├── scripts/          # Seed scripts and utilities
+│   └── server.js         # App entry point
 │
 ├── frontend/
 │   ├── src/
-│   │   ├── components/  # Reusable UI components
-│   │   ├── pages/       # Route-level page components
-│   │   └── App.jsx      # Root component and routing
+│   │   ├── components/   # Reusable UI components
+│   │   ├── pages/        # Route-level page components
+│   │   └── App.jsx       # Root component and routing config
 │   └── tailwind.config.js
 │
 └── README.md
 ```
+
+<br/>
 
 ---
 
@@ -123,11 +198,15 @@ edu-manage/
 
 ### Prerequisites
 
-Ensure you have the following installed:
+Before you begin, ensure you have the following installed:
 
-- [Node.js](https://nodejs.org/) v16 or higher
-- [MongoDB](https://www.mongodb.com/) (local instance or [MongoDB Atlas](https://www.mongodb.com/cloud/atlas))
-- npm or yarn
+| Requirement | Version | Download |
+|-------------|---------|----------|
+| Node.js | v16 or higher | [nodejs.org](https://nodejs.org/) |
+| MongoDB | Local or Atlas | [mongodb.com](https://www.mongodb.com/) |
+| npm / yarn | Latest | Bundled with Node.js |
+
+<br/>
 
 ### 1️⃣ Clone the Repository
 
@@ -143,7 +222,7 @@ cd backend
 npm install
 ```
 
-Create a `.env` file in the `/backend` directory:
+Create a `.env` file inside the `/backend` directory:
 
 ```env
 PORT=5000
@@ -152,13 +231,15 @@ JWT_SECRET=your_super_secret_key
 CLIENT_URL=http://localhost:3000
 ```
 
-Start the development server:
+> 💡 **Tip:** Use a long, random string for `JWT_SECRET`. You can generate one with `openssl rand -hex 64`.
+
+Start the backend development server:
 
 ```bash
 npm run dev
 ```
 
-The backend will be running at `http://localhost:5000`.
+✅ Backend will be running at `http://localhost:5000`
 
 ### 3️⃣ Frontend Setup
 
@@ -168,9 +249,11 @@ npm install
 npm start
 ```
 
-The frontend will be running at `http://localhost:3000`.
+✅ Frontend will be running at `http://localhost:3000`
 
-> ⚠️ **Note:** Ensure your MongoDB instance is running before starting the backend server.
+> ⚠️ **Important:** Ensure your MongoDB instance is running **before** starting the backend server.
+
+<br/>
 
 ---
 
@@ -179,99 +262,180 @@ The frontend will be running at `http://localhost:3000`.
 ### 👨‍🎓 Student Flow
 
 ```
-Register → Verify Email → Login → Browse Courses → Enroll
-    → View Content → Submit Assignments → Track Grades & Attendance
+Register Account
+      ↓
+Verify Email
+      ↓
+Login to Dashboard
+      ↓
+Browse & Enroll in Courses
+      ↓
+View Course Content
+      ↓
+Submit Assignments
+      ↓
+Track Grades & Attendance
 ```
 
 ### 👩‍🏫 Instructor Flow
 
 ```
-Register → Admin Approval → Login → Create Course → Upload Content
-    → Manage Enrollments → Grade Assignments → Mark Attendance
+Register Account
+      ↓
+Await Admin Approval
+      ↓
+Login to Dashboard
+      ↓
+Create Course & Upload Content
+      ↓
+Manage Student Enrollments
+      ↓
+Grade Submissions & Give Feedback
+      ↓
+Mark Attendance Per Session
 ```
 
 ### 🛠️ Admin Flow
 
 ```
-Login → Approve/Reject Users → Manage Course Catalog
-    → Monitor Platform Activity → Generate Reports
+Login to Admin Dashboard
+      ↓
+Approve / Reject User Accounts
+      ↓
+Manage Course Catalog
+      ↓
+Monitor Platform Activity
+      ↓
+Generate Reports
 ```
+
+<br/>
 
 ---
 
-## 📜 Scripts
+## 📜 Available Scripts
 
 | Command | Directory | Description |
 |---------|-----------|-------------|
-| `npm run dev` | `/backend` | Start backend in development mode (nodemon) |
+| `npm run dev` | `/backend` | Start backend in development mode with **nodemon** |
 | `npm start` | `/frontend` | Run the React development server |
 | `npm run build` | `/frontend` | Build the frontend for production |
+
+<br/>
 
 ---
 
 ## 🛣️ Roadmap
 
-Planned improvements for future releases:
+Planned features and improvements for future releases:
 
-- [ ] 📧 Email notifications (course updates, grade alerts)
-- [ ] 📱 Full mobile responsiveness
-- [ ] ☁️ Cloud file storage via AWS S3 or Cloudinary
-- [ ] 🔐 Two-factor authentication (2FA)
-- [ ] 📊 Advanced analytics dashboard with charts
-- [ ] 🔔 Real-time notifications using WebSockets
-- [ ] 🌐 Multi-language support (i18n)
+- [ ] 📧 **Email notifications** — Course updates, grade alerts, and enrollment confirmations
+- [ ] 📱 **Full mobile responsiveness** — Optimized experience across all screen sizes
+- [ ] ☁️ **Cloud file storage** — AWS S3 or Cloudinary integration
+- [ ] 🔐 **Two-factor authentication** — Enhanced account security (TOTP-based 2FA)
+- [ ] 📊 **Advanced analytics dashboard** — Charts and insights for instructors and admins
+- [ ] 🔔 **Real-time notifications** — WebSocket-powered live updates
+- [ ] 🌐 **Multi-language support** — i18n integration for global accessibility
+- [ ] 🤖 **AI study recommendations** — Personalized content suggestions for students
+
+<br/>
 
 ---
 
 ## 🤝 Contributing
 
-Contributions, issues, and feature requests are welcome!
+Contributions, issues, and feature requests are genuinely welcome!
 
-1. **Fork** the repository
-2. **Create** your feature branch:
-   ```bash
-   git checkout -b feature/YourFeatureName
-   ```
-3. **Commit** your changes:
-   ```bash
-   git commit -m "feat: add YourFeatureName"
-   ```
-4. **Push** to your branch:
-   ```bash
-   git push origin feature/YourFeatureName
-   ```
-5. **Open** a Pull Request
+### How to Contribute
 
-Please follow [Conventional Commits](https://www.conventionalcommits.org/) for commit messages.
+**1.** Fork the repository
+
+```bash
+# Clone your fork
+git clone https://github.com/YOUR_USERNAME/EDU-MANAGE.git
+cd EDU-MANAGE
+```
+
+**2.** Create your feature branch
+
+```bash
+git checkout -b feature/YourFeatureName
+```
+
+**3.** Make your changes and commit using [Conventional Commits](https://www.conventionalcommits.org/)
+
+```bash
+git commit -m "feat: add YourFeatureName"
+# Other prefixes: fix:, docs:, style:, refactor:, test:, chore:
+```
+
+**4.** Push to your branch
+
+```bash
+git push origin feature/YourFeatureName
+```
+
+**5.** Open a Pull Request — describe your changes clearly and link any related issues.
+
+<br/>
+
+> Please read our [Contributing Guidelines](CONTRIBUTING.md) and [Code of Conduct](CODE_OF_CONDUCT.md) before submitting.
+
+<br/>
 
 ---
 
 ## 📄 License
 
-This project is licensed under the [MIT License](LICENSE).
+This project is distributed under the **MIT License** — see the [LICENSE](LICENSE) file for full details.
+
+```
+MIT License — Free to use, modify, and distribute with attribution.
+```
+
+<br/>
 
 ---
 
 ## 👤 Author
 
-**Muhammed Hamdan**
+<div align="center">
 
-- GitHub: [@hamdanparakkal](https://github.com/hamdanparakkal)
+<img src="https://github.com/hamdanparakkal.png" width="100" style="border-radius:50%;" alt="Muhammed Hamdan"/>
+
+### Muhammed Hamdan
+
+[![GitHub](https://img.shields.io/badge/GitHub-@hamdanparakkal-181717?style=for-the-badge&logo=github)](https://github.com/hamdanparakkal)
+
+</div>
+
+<br/>
 
 ---
 
 ## ⭐ Acknowledgements
 
 - [MERN Stack Documentation](https://www.mongodb.com/mern-stack)
-- [MongoDB & Mongoose Docs](https://mongoosejs.com/docs/)
+- [Mongoose ODM](https://mongoosejs.com/docs/)
 - [Tailwind CSS](https://tailwindcss.com/)
-- [JWT Authentication](https://jwt.io/)
+- [JWT Authentication Guide](https://jwt.io/)
 - [Express.js](https://expressjs.com/)
+- [React Documentation](https://react.dev/)
 
 ---
 
 <div align="center">
 
-**If you found this project useful, please consider giving it a ⭐ on GitHub!**
+<br/>
+
+**If EDU-MANAGE helped you, please consider giving it a ⭐ — it means a lot!**
+
+<br/>
+
+[![Star this repo](https://img.shields.io/badge/⭐%20Star%20this%20repo-yellow?style=for-the-badge)](https://github.com/hamdanparakkal/EDU-MANAGE)
+
+<br/>
+
+*Made with ❤️ by [Muhammed Hamdan](https://github.com/hamdanparakkal)*
 
 </div>
